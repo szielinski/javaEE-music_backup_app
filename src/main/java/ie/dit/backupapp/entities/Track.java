@@ -1,4 +1,4 @@
-package ie.die.backupapp.entities;
+package ie.dit.backupapp.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

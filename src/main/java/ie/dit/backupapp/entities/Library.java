@@ -1,4 +1,4 @@
-package ie.die.backupapp.entities;
+package ie.dit.backupapp.entities;
 
 import java.util.Date;
 import javax.persistence.Column;
