@@ -1,7 +1,6 @@
 package ie.dit.backupapp.entities;
 
 import java.util.Collection;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,8 +17,6 @@ public class UserLibrary {
 	private String username;
 	@Column(length = 64)
 	private String password;
-	@Column
-	private Date date;
 
 	@OneToMany
 	private Collection <Track> tracks;
@@ -54,14 +51,6 @@ public class UserLibrary {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
 	}
 
 	public Collection <Track> getTracks() {
