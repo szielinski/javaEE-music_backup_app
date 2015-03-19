@@ -16,12 +16,12 @@ public class JPAUserLibraryDAO implements UserLibraryDAO {
 	}
 
 	@Override
-	public void updateUserLibrary(UserLibrary userLibrary) {
+	public boolean updateUserLibrary(UserLibrary userLibrary) {
 		em.merge(userLibrary);
 	}
 
 	@Override
-	public void addUserLibrary(UserLibrary userLibrary) {
+	public boolean addUserLibrary(UserLibrary userLibrary) {
 		em.persist(userLibrary);
 	}
 
