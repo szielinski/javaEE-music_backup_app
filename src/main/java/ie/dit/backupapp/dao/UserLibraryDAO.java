@@ -6,7 +6,7 @@ public interface UserLibraryDAO {
 
 	public UserLibrary getUserLibrary(String username);
 
-	public boolean addUserLibrary(UserLibrary userLibrary);
+	public void addUserLibrary(UserLibrary userLibrary);
 
-	public boolean updateUserLibrary(UserLibrary userLibrary);
+	public void updateUserLibrary(UserLibrary userLibrary);
 }

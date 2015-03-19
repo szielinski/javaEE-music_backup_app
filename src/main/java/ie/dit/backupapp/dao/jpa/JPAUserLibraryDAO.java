@@ -2,6 +2,7 @@ package ie.dit.backupapp.dao.jpa;
 
 import ie.dit.backupapp.dao.UserLibraryDAO;
 import ie.dit.backupapp.entities.UserLibrary;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -16,13 +17,12 @@ public class JPAUserLibraryDAO implements UserLibraryDAO {
 	}
 
 	@Override
-	public boolean updateUserLibrary(UserLibrary userLibrary) {
+	public void updateUserLibrary(UserLibrary userLibrary) {
 		em.merge(userLibrary);
 	}
 
 	@Override
-	public boolean addUserLibrary(UserLibrary userLibrary) {
+	public void addUserLibrary(UserLibrary userLibrary) {
 		em.persist(userLibrary);
 	}
-
 }

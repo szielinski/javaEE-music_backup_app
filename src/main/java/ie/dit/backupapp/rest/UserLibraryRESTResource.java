@@ -17,25 +17,25 @@ public class UserLibraryRESTResource {
 
 	@EJB
 	private UserLibraryService userLibraryService;
-	
+
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUserLibrary(String username) {
-		//TODO: check if user is logged in/has access
-		
+		// TODO: check if user is logged in/has access
+
 		return Response.ok().status(200).entity(userLibraryService.getUserLibrary(username)).build();
 	}
-	
-	@POST
+
+	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateUserLibrary(UserLibrary userLibrary) {
 		userLibraryService.updateLibrary(userLibrary);
 		return Response.ok().status(200).build();
 	}
-	
-	@PUT
+
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addUserLibrary(UserLibrary userLibrary) {
