@@ -1,6 +1,10 @@
 package ie.dit.backupapp.services;
 
+import ie.dit.backupapp.entities.UserLibrary;
 
-public class UserLibraryService {
 
+public interface UserLibraryService {
+	public void updateLibrary(UserLibrary userLibrary);
+	public void addLibrary(UserLibrary userLibrary);
+	public UserLibrary getUserLibrary(String username);
 }
