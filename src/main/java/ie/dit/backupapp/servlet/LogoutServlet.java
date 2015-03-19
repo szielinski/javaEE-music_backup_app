@@ -1,4 +1,4 @@
-package ie.dit.backupapp.services.servlet;
+package ie.dit.backupapp.servlet;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
