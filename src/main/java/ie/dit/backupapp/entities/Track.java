@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TB_tracks")
-//@NamedQueries()
+// @NamedQueries()
 public class Track {
 
 	@Id
@@ -26,16 +26,16 @@ public class Track {
 	private String genre;
 	@Column
 	private int size;
-	@Column
+	@Column(name = "total_time")
 	private int totalTime;
-	@Column
+	@Column(name = "track_number")
 	private int trackNumber;
 	@Column
 	private int year;
-	@Column
+	@Column(name = "date_added")
 	private Date dateAdded;
-	@Column
+	@Column(name = "play_count")
 	private int playCount;
-	@Column
+	@Column(name = "play_date_utc")
 	private Date playDateUTC;
 }
