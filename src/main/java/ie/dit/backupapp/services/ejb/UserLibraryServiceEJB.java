@@ -1,5 +1,6 @@
 package ie.dit.backupapp.services.ejb;
 
+import java.util.Collection;
 import ie.dit.backupapp.dao.UserLibraryDAO;
 import ie.dit.backupapp.entities.UserLibrary;
 import ie.dit.backupapp.services.UserLibraryService;
@@ -27,5 +28,10 @@ public class UserLibraryServiceEJB implements UserLibraryService {
 	@Override
 	public UserLibrary getUserLibrary(String username) {
 		return userLibraryDAO.getUserLibrary(username);
+	}
+
+	@Override
+	public Collection <String> getAllPlaylistNames() {
+		return userLibraryDAO.getAllPlaylistNames();
 	}
 }

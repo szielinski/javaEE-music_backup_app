@@ -1,5 +1,6 @@
 package ie.dit.backupapp.dao.jpa;
 
+import java.util.Collection;
 import ie.dit.backupapp.dao.UserLibraryDAO;
 import ie.dit.backupapp.entities.UserLibrary;
 import javax.persistence.EntityManager;
@@ -23,5 +24,10 @@ public class JPAUserLibraryDAO implements UserLibraryDAO {
 	@Override
 	public void addUserLibrary(UserLibrary userLibrary) {
 		em.persist(userLibrary);
+	}
+
+	@Override
+	public Collection <String> getAllPlaylistNames(String username) {
+		return em.createNamedQuery("getAllPlaylistNames").setParameter("username", username).getResultList();
 	}
 }

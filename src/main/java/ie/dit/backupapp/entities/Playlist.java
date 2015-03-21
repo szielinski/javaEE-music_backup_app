@@ -1,5 +1,6 @@
 package ie.dit.backupapp.entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +14,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TB_playlists")
-// @NamedQueries()
 public class Playlist {
 
 	@Id
@@ -26,11 +26,11 @@ public class Playlist {
 
 	@ManyToMany
 	@JoinTable(name = "TB_playlists_tracks", joinColumns = {@JoinColumn(name = "playlist_id", referencedColumnName = "PK_playlist_id")}, inverseJoinColumns = {
-			@JoinColumn(name = "track_id", referencedColumnName = "track_id"),
-			@JoinColumn(name = "library_id", referencedColumnName = "library_id")})
+			@JoinColumn(name = "track_id", referencedColumnName = "track_id"), @JoinColumn(name = "library_id", referencedColumnName = "library_id")})
 	private Collection <Track> tracks;
 
 	public Playlist() {
+		this.tracks = new ArrayList<>();
 	}
 
 	public Playlist(String name, Collection <Track> tracks) {
@@ -61,6 +61,10 @@ public class Playlist {
 	public void setTracks(Collection <Track> tracks) {
 		this.tracks = tracks;
 	}
+	
+	public void addTrack(Track track){
+		this.tracks.add(track);
+	}
 
 	@Override
 	public int hashCode() {
@@ -82,5 +86,12 @@ public class Playlist {
 		if (playlistId != other.playlistId)
 			return false;
 		return true;
+	}
+	
+	public String toString(){
+		String tracksString = "";
+		for(Track t : tracks)
+			tracksString += t.getTrackId() + "\n";
+		return getName()+"\n"+tracksString;
 	}
 }

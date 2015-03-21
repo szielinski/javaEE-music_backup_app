@@ -1,6 +1,7 @@
 package ie.dit.backupapp.dao;
 
 import ie.dit.backupapp.entities.UserLibrary;
+import java.util.Collection;
 
 public interface UserLibraryDAO {
 
@@ -9,4 +10,6 @@ public interface UserLibraryDAO {
 	public void addUserLibrary(UserLibrary userLibrary);
 
 	public void updateUserLibrary(UserLibrary userLibrary);
+	
+	public Collection<String> getAllPlaylistNames(String username);
 }

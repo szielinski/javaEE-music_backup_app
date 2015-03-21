@@ -12,10 +12,6 @@ import javax.persistence.Table;
 // @NamedQueries()
 public class Track {
 
-	// @Id
-	// @Column(name = "PK_track_playlist")
-	// @EmbeddedId
-	// private TrackPlaylistCK trackCK;
 	@Id
 	@Column(name = "track_id")
 	private int trackId;
@@ -123,5 +119,9 @@ public class Track {
 
 	public void setYear(Integer year) {
 		this.year = year;
+	}
+	
+	public String toString(){
+		return ""+getName()+"\n"+getTrackId()+"\n"+getArtist()+"\n"+getComposer()+"\n"+getAlbum()+"\n"+getGenre()+"\n"+getYear();
 	}
 }

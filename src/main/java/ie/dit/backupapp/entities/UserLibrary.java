@@ -1,15 +1,19 @@
 package ie.dit.backupapp.entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "TB_user_libraries")
-// @NamedQueries()
+@NamedQuery(name = "getAllPlaylistNames", query = "SELECT playlists.name as name FROM UserLibrary userLibraries, Playlist playlists WHERE name MEMBER OF userLibraries.playlists AND userLibraries.username = :username")
 public class UserLibrary {
 
 	@Id
@@ -21,12 +25,14 @@ public class UserLibrary {
 	@Column(length = 64, nullable = false)
 	private String password;
 
-	@OneToMany(targetEntity = Track.class)
+	@OneToMany(targetEntity = Track.class, fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	private Collection <Track> tracks;
-	@OneToMany(targetEntity = Playlist.class)
+	@OneToMany(targetEntity = Playlist.class, fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	private Collection <Playlist> playlists;
 
 	public UserLibrary() {
+		this.tracks = new ArrayList<>();
+		this.playlists = new ArrayList<>();
 	}
 
 	public UserLibrary(String username) {
@@ -63,6 +69,19 @@ public class UserLibrary {
 	public void setTracks(Collection <Track> tracks) {
 		this.tracks = tracks;
 	}
+	
+	public void addTrack(Track track){
+		tracks.add(track);
+	}
+	
+	public Track getTrackById(int trackId){
+		for(Track t : tracks){ 
+			if(t.getTrackId() == trackId){
+				return t;
+			}
+		}
+		return null;
+	}
 
 	public Collection <Playlist> getPlaylists() {
 		return playlists;
@@ -70,6 +89,18 @@ public class UserLibrary {
 
 	public void setPlaylists(Collection <Playlist> playlists) {
 		this.playlists = playlists;
+	}
+	
+	public void addPlaylist(Playlist playlist){
+		playlists.add(playlist);
+	}
+	
+	public int getLibraryId() {
+		return libraryId;
+	}
+	
+	public void setLibraryId(int libraryId) {
+		this.libraryId = libraryId;
 	}
 
 	@Override
@@ -97,5 +128,4 @@ public class UserLibrary {
 			return false;
 		return true;
 	}
-
 }
