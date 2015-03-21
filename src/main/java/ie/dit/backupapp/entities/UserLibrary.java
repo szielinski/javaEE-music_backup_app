@@ -16,9 +16,9 @@ public class UserLibrary {
 	@Column(name = "PK_library_id")
 	private int libraryId;
 	
-	@Column(unique=true, length = 32)
+	@Column(unique=true, nullable = false, length = 32)
 	private String username;
-	@Column(length = 64)
+	@Column(length = 64, nullable = false)
 	private String password;
 
 	@OneToMany(targetEntity = Track.class)
