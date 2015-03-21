@@ -1,24 +1,18 @@
 package ie.dit.backupapp.services.ejb;
 
-import ie.dit.backupapp.dao.UserLibraryDAO;
-import ie.dit.backupapp.services.XMLReaderService;
 import java.io.File;
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-@Local
-@Stateless
+//@Local
+//@Stateless
 public class XMLReaderServiceEJB /* implements XMLReaderService */{
 
-	@Inject
-	private UserLibraryDAO userLibraryDAO;
+//	@Inject
+//	private UserLibraryDAO userLibraryDAO;
 
 	public static void main(String [] args) {
 		readXML("/home/szymon/Desktop/iTunes Music Library3.xml");

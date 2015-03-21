@@ -17,12 +17,11 @@
 	</servlet-mapping>
 
 	<servlet>
-		<display-name>LogoutServlet</display-name>
-		<servlet-name>ie.dit.backuppapp.servlet</servlet-name>
-		<servlet-class>ie.dit.backuppapp.servlet.LogoutServlet</servlet-class>
+		<servlet-name>LogoutServlet</servlet-name>
+		<servlet-class>ie.dit.backupapp.servlet.LogoutServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>ie.dit.backuppapp.servlet</servlet-name>
+		<servlet-name>LogoutServlet</servlet-name>
 		<url-pattern>/LogoutServlet</url-pattern>
 	</servlet-mapping>
 </web-app>

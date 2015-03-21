@@ -13,14 +13,17 @@ import javax.persistence.Table;
 public class UserLibrary {
 
 	@Id
-	@Column(name = "PK_username", length = 32)
+	@Column(name = "PK_library_id")
+	private int libraryId;
+	
+	@Column(unique=true, length = 32)
 	private String username;
 	@Column(length = 64)
 	private String password;
 
-	@OneToMany
+	@OneToMany(targetEntity = Track.class)
 	private Collection <Track> tracks;
-	@OneToMany
+	@OneToMany(targetEntity = Playlist.class)
 	private Collection <Playlist> playlists;
 
 	public UserLibrary() {

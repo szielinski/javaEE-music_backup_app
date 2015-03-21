@@ -6,7 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,10 +20,14 @@ public class Playlist {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "PK_playlist_id")
 	private int playlistId;
+
 	@Column
 	private String name;
 
-	@OneToMany
+	@ManyToMany
+	@JoinTable(name = "TB_playlists_tracks", joinColumns = {@JoinColumn(name = "playlist_id", referencedColumnName = "PK_playlist_id")}, inverseJoinColumns = {
+			@JoinColumn(name = "track_id", referencedColumnName = "track_id"),
+			@JoinColumn(name = "library_id", referencedColumnName = "library_id")})
 	private Collection <Track> tracks;
 
 	public Playlist() {

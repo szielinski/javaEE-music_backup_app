@@ -2,7 +2,6 @@ package ie.dit.backupapp.dao.jpa;
 
 import ie.dit.backupapp.dao.UserLibraryDAO;
 import ie.dit.backupapp.entities.UserLibrary;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
