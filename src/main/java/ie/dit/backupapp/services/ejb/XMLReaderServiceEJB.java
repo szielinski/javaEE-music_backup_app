@@ -4,6 +4,7 @@ import ie.dit.backupapp.dao.UserLibraryDAO;
 import ie.dit.backupapp.entities.Playlist;
 import ie.dit.backupapp.entities.Track;
 import ie.dit.backupapp.entities.UserLibrary;
+import ie.dit.backupapp.services.XMLReaderService;
 import java.io.File;
 import java.util.ArrayList;
 import javax.ejb.Local;
@@ -17,17 +18,13 @@ import org.w3c.dom.NodeList;
 
 @Local
 @Stateless
-public class XMLReaderServiceEJB /* implements XMLReaderService */{
+public class XMLReaderServiceEJB implements XMLReaderService {
 
 	@Inject
 	private UserLibraryDAO userLibraryDAO;
 
-	public static void main(String [] args) {
-		readXML("C:\\Users\\Szymon\\Desktop\\java project\\iTunes Music Library3.xml");
-	}
-
-	// @Override
-	public static void readXML(String location) {
+	@Override
+	public void readXML(String location) {
 		File xmlFile = null;
 		try {
 			xmlFile = new File(location);
@@ -36,20 +33,15 @@ public class XMLReaderServiceEJB /* implements XMLReaderService */{
 			Document parsedXML = docBuilder.parse(xmlFile);
 
 			parsedXML.getDocumentElement().normalize();
-			System.out.println("Root element: " + parsedXML.getDocumentElement().getNodeName());
 
-			// NodeList nList = parsedXML.getElementsByTagName("staff");
-			System.out.println("----------------------------");
 			processFile(parsedXML);
-			// showChildNodes(1, parsedXML.getDocumentElement().getChildNodes());
-
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private static void processFile(Document parsedXML) {
+	private void processFile(Document parsedXML) {
 		UserLibrary newUserLibrary = new UserLibrary("test", "test", new ArrayList <Track>(), new ArrayList <Playlist>());
 
 		Node tracksNode = getNode(parsedXML.getDocumentElement().getChildNodes(), "Tracks");
@@ -65,9 +57,10 @@ public class XMLReaderServiceEJB /* implements XMLReaderService */{
 			Node playlistsArray = playlistsKey.getNextSibling().getNextSibling();
 			processPlaylists(playlistsArray, newUserLibrary);
 		}
+		userLibraryDAO.addUserLibrary(newUserLibrary);
 	}
 
-	private static void processTracks(Node tracksDict, UserLibrary userLibrary) {
+	private void processTracks(Node tracksDict, UserLibrary userLibrary) {
 		NodeList tracksDictElements = tracksDict.getChildNodes();
 
 		for (int i = 0; i < tracksDictElements.getLength(); i++) {
@@ -125,8 +118,6 @@ public class XMLReaderServiceEJB /* implements XMLReaderService */{
 			track.setYear(Integer.parseInt(year.getNodeValue()));
 		}
 
-		System.out.println("track");
-		System.out.println(track);
 		userLibrary.addTrack(track);
 	}
 
@@ -158,7 +149,6 @@ public class XMLReaderServiceEJB /* implements XMLReaderService */{
 				processPlaylistArray(currentNode, userLibrary, playlist);
 			}
 		}
-		System.out.println(playlist);
 		userLibrary.addPlaylist(playlist);
 	}
 
@@ -182,11 +172,7 @@ public class XMLReaderServiceEJB /* implements XMLReaderService */{
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node currentNode = nodeList.item(i);
 
-			// System.out.println("comp: " + nodeKey);
-			// System.out.println(currentNode.getNodeValue());
-
 			if (currentNode.getNodeValue() != null && currentNode.getNodeValue().equals(nodeKey)) {
-				// System.out.println("HERERAHIUWHNGFEIO");
 				return currentNode;
 			}
 			if (currentNode.hasChildNodes()) {

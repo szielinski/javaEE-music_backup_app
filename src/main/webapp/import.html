@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<form id='importForm' action='rest/restImportService/import'
+		method='post' enctype='multipart/form-data'>
+		<b>Please choose a file to import</b><br>
+		<br> <input id='selectedFile' type='file' name='selectedFile'
+			value='' /><br>
+		<br>
+		<button type='submit' id='testButton' onclick='passFilePath()'>import</button>
+	</form>
+	<hr>
+</body>
+</html>

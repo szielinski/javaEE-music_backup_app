@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/userlibrary")
-public class UserLibraryRESTResource {
+public class UserLibraryRESTService {
 
 	@EJB
 	private UserLibraryService userLibraryService;
