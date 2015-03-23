@@ -26,6 +26,8 @@ public class UserLibrary {
 	private String password;
 	@Column(name = "library_persistent_id", unique = true, nullable = false)
 	private String libraryPersistentId;
+	@Column(nullable = false)
+	private String role;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "library_id", referencedColumnName = "PK_library_id")
@@ -37,10 +39,12 @@ public class UserLibrary {
 	public UserLibrary() {
 		this.tracks = new ArrayList <>();
 		this.playlists = new ArrayList <>();
+		this.role = "user";
 	}
 
 	public UserLibrary(String username) {
 		this.username = username;
+		this.role = "user";
 	}
 
 	public UserLibrary(String username, String password, String libraryPersistentId, Collection <Track> tracks, Collection <Playlist> playlists) {
@@ -49,6 +53,7 @@ public class UserLibrary {
 		this.libraryPersistentId = libraryPersistentId;
 		this.tracks = tracks;
 		this.playlists = playlists;
+		this.role = "user";
 	}
 
 	public String getUsername() {
