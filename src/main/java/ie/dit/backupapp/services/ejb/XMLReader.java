@@ -1,32 +1,22 @@
 package ie.dit.backupapp.services.ejb;
 
-import ie.dit.backupapp.dao.UserLibraryDAO;
 import ie.dit.backupapp.entities.Playlist;
 import ie.dit.backupapp.entities.Track;
 import ie.dit.backupapp.entities.UserLibrary;
 import java.io.File;
 import java.util.ArrayList;
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-@Local
-@Stateless
 public class XMLReader{
-
-	@Inject
-	private UserLibraryDAO userLibraryDAO;
 
 	public static void main(String [] args) {
 		readXML("C:\\Users\\Szymon\\Desktop\\java project\\iTunes Music Library3.xml");
 	}
 
-	// @Override
 	public static void readXML(String location) {
 		File xmlFile = null;
 		try {
@@ -50,7 +40,7 @@ public class XMLReader{
 	}
 
 	private static void processFile(Document parsedXML) {
-		UserLibrary newUserLibrary = new UserLibrary("test", "test", new ArrayList <Track>(), new ArrayList <Playlist>());
+		UserLibrary newUserLibrary = new UserLibrary("test", "test", "test", new ArrayList <Track>(), new ArrayList <Playlist>());
 
 		Node tracksNode = getNode(parsedXML.getDocumentElement().getChildNodes(), "Tracks");
 		if (tracksNode != null) {

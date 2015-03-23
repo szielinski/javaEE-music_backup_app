@@ -32,6 +32,7 @@ public class UserLibraryServiceEJB implements UserLibraryService {
 
 	@Override
 	public Collection <String> getAllPlaylistNames() {
-		return userLibraryDAO.getAllPlaylistNames();
+		return null;
+		// userLibraryDAO.getAllPlaylistNames();
 	}
 }

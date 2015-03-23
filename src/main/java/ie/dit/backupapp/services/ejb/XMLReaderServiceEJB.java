@@ -16,15 +16,18 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-@Local
 @Stateless
+@Local
 public class XMLReaderServiceEJB implements XMLReaderService {
 
 	@Inject
 	private UserLibraryDAO userLibraryDAO;
 
 	@Override
-	public void readXML(String location) {
+	public void createUserLibraryFromXML(String location, String username, String password) {
+		UserLibrary newUserLibrary = new UserLibrary();
+		newUserLibrary.setUsername(username);
+		newUserLibrary.setPassword(password);
 		File xmlFile = null;
 		try {
 			xmlFile = new File(location);
@@ -34,15 +37,16 @@ public class XMLReaderServiceEJB implements XMLReaderService {
 
 			parsedXML.getDocumentElement().normalize();
 
-			processFile(parsedXML);
+			insertDataIntoLibrary(parsedXML, newUserLibrary);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void processFile(Document parsedXML) {
-		UserLibrary newUserLibrary = new UserLibrary("test", "test", new ArrayList <Track>(), new ArrayList <Playlist>());
+	private void insertDataIntoLibrary(Document parsedXML, UserLibrary newUserLibrary) {
+		Node libraryPersistentIdNode = getValueNode(parsedXML.getDocumentElement().getChildNodes(), "Library Persistent ID");
+		newUserLibrary.setLibraryPersistentId(libraryPersistentIdNode.getNodeValue());
 
 		Node tracksNode = getNode(parsedXML.getDocumentElement().getChildNodes(), "Tracks");
 		if (tracksNode != null) {
@@ -72,11 +76,10 @@ public class XMLReaderServiceEJB implements XMLReaderService {
 		}
 	}
 
-	private static void processSingleTrack(Node trackNode, UserLibrary userLibrary) {
+	private void processSingleTrack(Node trackNode, UserLibrary userLibrary) {
 		NodeList trackContents = trackNode.getChildNodes();
 		Track track = new Track();
-		// track.setLibraryId(userLibrary.getLibraryId());
-		track.setLibraryId(1);
+		track.setLibraryId(userLibrary.getLibraryId());
 
 		Node trackId = getValueNode(trackContents, "Track ID");
 		if (trackId != null) {
@@ -121,7 +124,7 @@ public class XMLReaderServiceEJB implements XMLReaderService {
 		userLibrary.addTrack(track);
 	}
 
-	private static void processPlaylists(Node playlistsArray, UserLibrary userLibrary) {
+	private void processPlaylists(Node playlistsArray, UserLibrary userLibrary) {
 		NodeList playlistsDictElements = playlistsArray.getChildNodes();
 
 		for (int i = 0; i < playlistsDictElements.getLength(); i++) {
@@ -133,7 +136,7 @@ public class XMLReaderServiceEJB implements XMLReaderService {
 		}
 	}
 
-	private static void processSinglePlaylist(Node playlistNode, UserLibrary userLibrary) {
+	private void processSinglePlaylist(Node playlistNode, UserLibrary userLibrary) {
 		NodeList playlistContents = playlistNode.getChildNodes();
 		Playlist playlist = new Playlist();
 
@@ -152,7 +155,7 @@ public class XMLReaderServiceEJB implements XMLReaderService {
 		userLibrary.addPlaylist(playlist);
 	}
 
-	private static void processPlaylistArray(Node playlistArray, UserLibrary userLibrary, Playlist playlist) {
+	private void processPlaylistArray(Node playlistArray, UserLibrary userLibrary, Playlist playlist) {
 		NodeList playlistTrackArray = playlistArray.getChildNodes();
 
 		for (int i = 0; i < playlistTrackArray.getLength(); i++) {
@@ -168,7 +171,7 @@ public class XMLReaderServiceEJB implements XMLReaderService {
 		}
 	}
 
-	public static Node getNode(NodeList nodeList, String nodeKey) {
+	private Node getNode(NodeList nodeList, String nodeKey) {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node currentNode = nodeList.item(i);
 
@@ -184,27 +187,11 @@ public class XMLReaderServiceEJB implements XMLReaderService {
 		return null;
 	}
 
-	public static Node getValueNode(NodeList nodeList, String nodeKey) {
+	private Node getValueNode(NodeList nodeList, String nodeKey) {
 		Node keyNode = getNode(nodeList, nodeKey);
 		if (keyNode != null) {
 			return keyNode.getParentNode().getNextSibling().getFirstChild();
 		}
 		return null;
-	}
-
-	public static void showChildNodes(int indentation, NodeList nList) {
-		for (int temp = 0; temp < nList.getLength(); temp++) {
-			Node nNode = nList.item(temp);
-
-			for (int i = 0; i < indentation; i++)
-				System.out.print("\t");
-			System.out.println("Current Element :" + nNode.getNodeName());
-			for (int i = 0; i < indentation; i++)
-				System.out.print("\t");
-			System.out.println("Value :" + nNode.getNodeValue() + "\n");
-			if (nNode.hasChildNodes()) {
-				showChildNodes(indentation + 1, nNode.getChildNodes());
-			}
-		}
 	}
 }

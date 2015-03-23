@@ -5,8 +5,8 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,29 +19,34 @@ public class UserLibrary {
 	@Id
 	@Column(name = "PK_library_id")
 	private int libraryId;
-	
-	@Column(unique=true, nullable = false, length = 32)
+
+	@Column(unique = true, nullable = false, length = 32)
 	private String username;
 	@Column(length = 64, nullable = false)
 	private String password;
+	@Column(name = "library_persistent_id", unique = true, nullable = false)
+	private String libraryPersistentId;
 
-	@OneToMany(targetEntity = Track.class, fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "library_id", referencedColumnName = "PK_library_id")
 	private Collection <Track> tracks;
-	@OneToMany(targetEntity = Playlist.class, fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "library_id", referencedColumnName="PK_library_id")
 	private Collection <Playlist> playlists;
 
 	public UserLibrary() {
-		this.tracks = new ArrayList<>();
-		this.playlists = new ArrayList<>();
+		this.tracks = new ArrayList <>();
+		this.playlists = new ArrayList <>();
 	}
 
 	public UserLibrary(String username) {
 		this.username = username;
 	}
 
-	public UserLibrary(String username, String password, Collection <Track> tracks, Collection <Playlist> playlists) {
+	public UserLibrary(String username, String password, String libraryPersistentId, Collection <Track> tracks, Collection <Playlist> playlists) {
 		this.username = username;
 		this.password = password;
+		this.libraryPersistentId = libraryPersistentId;
 		this.tracks = tracks;
 		this.playlists = playlists;
 	}
@@ -62,6 +67,14 @@ public class UserLibrary {
 		this.password = password;
 	}
 
+	public String getLibraryPersistentId() {
+		return libraryPersistentId;
+	}
+
+	public void setLibraryPersistentId(String libraryPersistentId) {
+		this.libraryPersistentId = libraryPersistentId;
+	}
+
 	public Collection <Track> getTracks() {
 		return tracks;
 	}
@@ -69,14 +82,17 @@ public class UserLibrary {
 	public void setTracks(Collection <Track> tracks) {
 		this.tracks = tracks;
 	}
-	
-	public void addTrack(Track track){
+
+	public void addTrack(Track track) {
+		if(this.tracks == null){
+			this.tracks = new ArrayList<>();
+		}
 		tracks.add(track);
 	}
-	
-	public Track getTrackById(int trackId){
-		for(Track t : tracks){ 
-			if(t.getTrackId() == trackId){
+
+	public Track getTrackById(int trackId) {
+		for (Track t : tracks) {
+			if (t.getTrackId() == trackId) {
 				return t;
 			}
 		}
@@ -90,15 +106,18 @@ public class UserLibrary {
 	public void setPlaylists(Collection <Playlist> playlists) {
 		this.playlists = playlists;
 	}
-	
-	public void addPlaylist(Playlist playlist){
+
+	public void addPlaylist(Playlist playlist) {
+		if(this.playlists == null){
+			this.playlists = new ArrayList<>();
+		}
 		playlists.add(playlist);
 	}
-	
+
 	public int getLibraryId() {
 		return libraryId;
 	}
-	
+
 	public void setLibraryId(int libraryId) {
 		this.libraryId = libraryId;
 	}

@@ -30,7 +30,7 @@ public class Playlist {
 	private Collection <Track> tracks;
 
 	public Playlist() {
-		this.tracks = new ArrayList<>();
+		this.tracks = new ArrayList <>();
 	}
 
 	public Playlist(String name, Collection <Track> tracks) {
@@ -61,8 +61,11 @@ public class Playlist {
 	public void setTracks(Collection <Track> tracks) {
 		this.tracks = tracks;
 	}
-	
-	public void addTrack(Track track){
+
+	public void addTrack(Track track) {
+		if(this.tracks == null){
+			this.tracks = new ArrayList<>();
+		}
 		this.tracks.add(track);
 	}
 
@@ -87,11 +90,11 @@ public class Playlist {
 			return false;
 		return true;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		String tracksString = "";
-		for(Track t : tracks)
+		for (Track t : tracks)
 			tracksString += t.getTrackId() + "\n";
-		return getName()+"\n"+tracksString;
+		return getName() + "\n" + tracksString;
 	}
 }

@@ -4,5 +4,5 @@ import javax.ejb.Local;
 
 @Local
 public interface XMLReaderService {
-	public void readXML(String location);
+	public void createUserLibraryFromXML(String location, String username, String password);
 }
