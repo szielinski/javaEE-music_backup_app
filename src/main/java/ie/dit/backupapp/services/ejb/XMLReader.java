@@ -73,7 +73,7 @@ public class XMLReader{
 		NodeList trackContents = trackNode.getChildNodes();
 		Track track = new Track();
 		// track.setLibraryId(userLibrary.getLibraryId());
-		track.setLibraryId(1);
+		track.setLibraryId("1");
 
 		Node trackId = getValueNode(trackContents, "Track ID");
 		if (trackId != null) {

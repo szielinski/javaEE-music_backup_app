@@ -13,7 +13,7 @@ public class JPAUserLibraryDAO implements UserLibraryDAO {
 
 	@Override
 	public UserLibrary getUserLibrary(String username) {
-		return em.find(UserLibrary.class, new UserLibrary(username));
+		return (UserLibrary) em.createNamedQuery("getLibraryByUsername").setParameter("username", username).getSingleResult();
 	}
 
 	@Override

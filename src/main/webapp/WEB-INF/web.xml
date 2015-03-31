@@ -53,6 +53,13 @@
 		</web-resource-collection>
 	</security-constraint>
 
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>my_import</web-resource-name>
+			<url-pattern>/my_import.html</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+
 	<security-role>
 		<role-name>user</role-name>
 	</security-role>

@@ -1,6 +1,7 @@
 package ie.dit.backupapp.rest;
 
 import ie.dit.backupapp.services.XMLReaderService;
+import ie.dit.backupapp.utils.PasswordGenerator;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -40,7 +41,7 @@ public class ImportRESTService {
 
 			if (xmlReader == null)
 				System.out.println("wtf");
-			xmlReader.createUserLibraryFromXML(filepath, "test", "test");
+			xmlReader.createUserLibraryFromXML(filepath, "tests", PasswordGenerator.generate("tests"));
 		}
 		catch (IOException e) {
 			resultString = "Import was unsuccessful";

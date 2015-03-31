@@ -1,5 +1,6 @@
 package ie.dit.backupapp.entities;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,14 +11,16 @@ import javax.persistence.Table;
 @IdClass(IdClasss.class)
 @Table(name = "TB_tracks")
 // @NamedQueries()
-public class Track {
+public class Track implements Serializable {
 
+	private static final long serialVersionUID = -5899790538477195104L;
+	
 	@Id
 	@Column(name = "track_id")
 	private int trackId;
 	@Id
 	@Column(name = "library_id")
-	private int libraryId;
+	private String libraryId;
 
 	@Column
 	private String name;
@@ -37,7 +40,7 @@ public class Track {
 	public Track() {
 	}
 
-	public Track(int trackId, int libraryId, String name, String artist, String composer, String album, String genre, int trackNumber, int year) {
+	public Track(int trackId, String libraryId, String name, String artist, String composer, String album, String genre, int trackNumber, int year) {
 		this.trackId = trackId;
 		this.libraryId = libraryId;
 		this.name = name;
@@ -57,11 +60,11 @@ public class Track {
 		this.trackId = trackId;
 	}
 
-	public int getLibraryId() {
+	public String getLibraryId() {
 		return libraryId;
 	}
 
-	public void setLibraryId(int libraryId) {
+	public void setLibraryId(String libraryId) {
 		this.libraryId = libraryId;
 	}
 

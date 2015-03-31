@@ -79,7 +79,7 @@ public class XMLReaderServiceEJB implements XMLReaderService {
 	private void processSingleTrack(Node trackNode, UserLibrary userLibrary) {
 		NodeList trackContents = trackNode.getChildNodes();
 		Track track = new Track();
-		track.setLibraryId(userLibrary.getLibraryId());
+		track.setLibraryId(userLibrary.getLibraryPersistentId());
 
 		Node trackId = getValueNode(trackContents, "Track ID");
 		if (trackId != null) {
@@ -165,7 +165,8 @@ public class XMLReaderServiceEJB implements XMLReaderService {
 				Node trackIDNode = getValueNode(currentNode.getChildNodes(), "Track ID");
 				if (trackIDNode != null) {
 					int trackID = Integer.parseInt(trackIDNode.getNodeValue());
-					playlist.addTrack(userLibrary.getTrackById(trackID));
+					Track track = userLibrary.getTrackById(trackID);
+					playlist.addTrack(track);
 				}
 			}
 		}
