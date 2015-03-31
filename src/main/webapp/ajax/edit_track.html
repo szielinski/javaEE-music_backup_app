@@ -1,0 +1,115 @@
+<div class="row">
+	<div id="breadcrumb" class="col-xs-12">
+		<a href="#" class="show-sidebar">
+			<i class="fa fa-bars"></i>
+		</a>
+		<ol class="breadcrumb pull-left">
+			<li><a href="index.html">Home</a></li>
+			<li><a href="index.html#ajax/tracks_list.html">Tracks</a></li>
+			<li><a href="#">Edit</a></li>
+		</ol>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12 col-sm-12">
+		<div class="box">
+			<div class="box-header">
+				<div class="box-name">
+					<i class="fa fa-search"></i>
+					<span>Edit track form</span>
+				</div>
+				<div class="box-icons">
+					<a class="expand-link">
+						<i class="fa fa-expand"></i>
+					</a>
+				</div>
+				<div class="no-move"></div>
+			</div>
+			<div class="box-content">
+				<h4 class="page-header">Edit track form</h4>
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Title</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" placeholder="Track name" data-toggle="tooltip" data-placement="bottom" title="Track name">
+						</div>
+						<label class="col-sm-2 control-label">Album</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" placeholder="Album name" data-toggle="tooltip" data-placement="bottom" title="Album name">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Artist</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" placeholder="Artist name" data-toggle="tooltip" data-placement="bottom" title="Artist name">
+						</div>
+						<label class="col-sm-2 control-label">Track Number</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" placeholder="Track number" data-toggle="tooltip" data-placement="bottom" title="Track number">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Year</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" placeholder="Release year" data-toggle="tooltip" data-placement="bottom" title="Release year">
+						</div>
+						<label class="col-sm-2 control-label">Genre</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" placeholder="Genre" data-toggle="tooltip" data-placement="bottom" title="Genre">
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-2">
+							<button type="button" class="btn btn-warning btn-label-left">
+							<span><i class="fa fa-times txt-danger"></i></span>
+								Cancel
+							</button>
+						</div>
+						<div class="col-sm-2">
+							<button type="submit" class="btn btn-danger btn-label-left">
+							<span><i class="fa fa-trash-o"></i></span>
+								Delete
+							</button>
+						</div>
+						<div class="col-sm-2">
+							<button type="submit" class="btn btn-primary btn-label-left">
+							<span><i class="fa fa-save"></i></span>
+								Save
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+// Run Select2 plugin on elements
+function DemoSelect2(){
+	$('#s2_with_tag').select2({placeholder: "Select OS"});
+	$('#s2_country').select2();
+}
+// Run timepicker
+function DemoTimePicker(){
+	$('#input_time').timepicker({setDate: new Date()});
+}
+$(document).ready(function() {
+	// Create Wysiwig editor for textare
+	TinyMCEStart('#wysiwig_simple', null);
+	TinyMCEStart('#wysiwig_full', 'extreme');
+	// Add slider for change test input length
+	FormLayoutExampleInputLength($( ".slider-style" ));
+	// Initialize datepicker
+	$('#input_date').datepicker({setDate: new Date()});
+	// Load Timepicker plugin
+	LoadTimePickerScript(DemoTimePicker);
+	// Add tooltip to form-controls
+	$('.form-control').tooltip();
+	LoadSelect2Script(DemoSelect2);
+	// Load example of form validation
+	LoadBootstrapValidatorScript(DemoFormValidator);
+	// Add drag-n-drop feature to boxes
+	WinMove();
+});
+</script>

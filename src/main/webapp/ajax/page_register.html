@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Music Backup App</title>
+<meta name="description" content="description">
+<meta name="author" content="Evgeniya">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="../plugins/bootstrap/bootstrap.css" rel="stylesheet">
+<link
+	href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css"
+	rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Righteous'
+	rel='stylesheet' type='text/css'>
+<link href="../css/style_v1.css" rel="stylesheet">
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+				<script src="http://getbootstrap.com/docs-assets/js/html5shiv.js"></script>
+				<script src="http://getbootstrap.com/docs-assets/js/respond.min.js"></script>
+		<![endif]-->
+</head>
+<body>
+	<div class="container-fluid">
+		<div id="page-login" class="row">
+			<div
+				class="col-xs-12 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+				<div class="text-right">
+					<a href="page_login.html" class="txt-default">Already have
+						an account?</a>
+				</div>
+				<div class="box">
+					<div class="box-content">
+						<div class="text-center">
+							<h3 class="page-header">Music Backup App Register Page</h3>
+						</div>
+						<form id='importForm' action='rest/restImportService/import'
+							method='post' enctype='multipart/form-data'>
+							<div class="form-group">
+								<label for="username" class="control-label">Username</label> <input
+									id="username" class="form-control" autofocus="autofocus"
+									required="required" type="text" name="j_username" />
+							</div>
+							<div class="form-group">
+								<label for="password" class="control-label">Password</label> <input
+									id="password" class="form-control" required="required"
+									type="password" name="j_password" />
+							</div>
+							<div class="form-group" style="width: auto;">
+								<label for="selectedFile" class="control-label">Select
+									XML file</label> <input id='selectedFile' class="btn btn-default btn-sm" type='file'
+									name='selectedFile' value='' style="width: 100%;"/>
+							</div>
+							<div class="text-center">
+								<button type="submit" id='testButton' class="btn btn-primary"
+									onclick='passFilePath()'>Register</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
