@@ -23,7 +23,6 @@ public class UserLibraryRESTService {
 	private UserLibraryService userLibraryService;
 
 	@GET
-	@Path("/get")
 	@Produces(MediaType.APPLICATION_JSON)
 	public UserLibrary getUserLibrary(@Context SecurityContext securityContext) {
 		System.out.println("uname: " + securityContext.getUserPrincipal().getName());
@@ -31,7 +30,7 @@ public class UserLibraryRESTService {
 	}
 	
 	@GET
-	@Path("/tracks/get")
+	@Path("/tracks")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Track> getUserTracks(@Context SecurityContext securityContext) {
 		UserLibrary library = userLibraryService.getUserLibrary(securityContext.getUserPrincipal().getName());
@@ -39,11 +38,18 @@ public class UserLibraryRESTService {
 	}
 	
 	@GET
-	@Path("/playlists/get")
+	@Path("/playlists")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection <Playlist> getUserPlaylists(@Context SecurityContext securityContext) {
 		UserLibrary library = userLibraryService.getUserLibrary(securityContext.getUserPrincipal().getName());
 		return library.getPlaylists();
+	}
+	
+	@GET
+	@Path("/username")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getUserName(@Context SecurityContext securityContext) {
+		return securityContext.getUserPrincipal().getName();
 	}
 	
 	@PUT

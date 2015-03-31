@@ -29,7 +29,7 @@
 		<auth-method>FORM</auth-method>
 		<realm-name>media-lib-jaas-realm</realm-name>
 		<form-login-config>
-			<form-login-page>/login.html</form-login-page>
+			<form-login-page>/page_login.html</form-login-page>
 			<form-error-page>/access-denied.html</form-error-page>
 		</form-login-config>
 	</login-config>
@@ -39,7 +39,7 @@
 		<web-resource-collection>
 			<web-resource-name>pages_auth</web-resource-name>
 			<url-pattern>/*</url-pattern>
-			<url-pattern>/login.html</url-pattern>
+			<url-pattern>/page_login.html</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>user</role-name>
@@ -57,6 +57,34 @@
 		<web-resource-collection>
 			<web-resource-name>my_import</web-resource-name>
 			<url-pattern>/my_import.html</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>page_register</web-resource-name>
+			<url-pattern>/page_register.html</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>css</web-resource-name>
+			<url-pattern>/css/*</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>plugins</web-resource-name>
+			<url-pattern>/plugins/*</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>images</web-resource-name>
+			<url-pattern>/img/*</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
 
