@@ -104,7 +104,7 @@ function populatePlaylistTable(data) {
 
 	var i;
 	for (i = 0; i < data.length; i++) {
-		t.row.add([ data[i].name, "0" ]).draw();
+		t.row.add([ data[i].name, data[i].tracks.length ]).draw();
 	}
 }
 </script>
