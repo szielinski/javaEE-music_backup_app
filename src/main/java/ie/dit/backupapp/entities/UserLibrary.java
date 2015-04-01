@@ -19,9 +19,11 @@ import org.hibernate.annotations.FetchMode;
 @Entity
 @Table(name = "TB_user_libraries")
 @NamedQueries({
-//		@NamedQuery(name = "getAllPlaylistNames", query = "SELECT playlists.name as name FROM UserLibrary userLibraries, Playlist playlists WHERE name MEMBER OF userLibraries.playlists AND userLibraries.username = :username")
-		@NamedQuery(name = "getAllPlaylistNames", query = "SELECT playlists.name as name FROM Playlist playlists"),
-//		@NamedQuery(name = "getTracksByPlaylistName", query = "SELECT tracks FROM Track tracks, Playlist playlists, UserLibrary userlibraries WHERE playlists.name = :playlistname AND "),
+		// @NamedQuery(name = "getAllPlaylistNames", query =
+		// "SELECT playlists.name as name FROM UserLibrary userLibraries, Playlist playlists WHERE name MEMBER OF userLibraries.playlists AND userLibraries.username = :username")
+		@NamedQuery(name = "getAllPlaylists", query = "SELECT p FROM Playlist p WHERE p.userLibrary.username = :username"),
+		@NamedQuery(name = "getAllPlaylistNames", query = "SELECT p.name as name FROM Playlist p WHERE p.userLibrary.username = :username"),
+		@NamedQuery(name = "getTracksByPlaylistName", query = "SELECT p FROM Playlist p WHERE p.name = :playlistName AND p.userLibrary.username = :username"),
 		@NamedQuery(name = "getLibraryByUsername", query = "SELECT userLibraries FROM UserLibrary userLibraries WHERE userLibraries.username = :username"),})
 public class UserLibrary implements Serializable {
 
@@ -38,13 +40,12 @@ public class UserLibrary implements Serializable {
 	@Column(nullable = false)
 	private String role;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	@JoinColumn(name = "library_id", referencedColumnName = "PK_library_id")
 	private Collection <Track> tracks;
-	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "userLibrary")
 	@Fetch(value = FetchMode.SUBSELECT)
-	@JoinColumn(name = "library_id", referencedColumnName = "PK_library_id")
 	private Collection <Playlist> playlists;
 
 	public UserLibrary() {
@@ -128,6 +129,14 @@ public class UserLibrary implements Serializable {
 			this.playlists = new ArrayList <>();
 		}
 		playlists.add(playlist);
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	@Override

@@ -12,9 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 @Entity
 @Table(name = "TB_playlists")
@@ -26,12 +26,16 @@ public class Playlist implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "PK_playlist_id")
 	private int playlistId;
-
 	@Column
 	private String name;
 
-	@ManyToMany(fetch=FetchType.EAGER)
-	@Fetch(value = FetchMode.SUBSELECT)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_LIBRARY")
+	@JsonBackReference
+	private UserLibrary userLibrary;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+//	@Fetch(value = FetchMode.SUBSELECT)
 	@JoinTable(name = "TB_playlists_tracks", joinColumns = {@JoinColumn(name = "playlist_id", referencedColumnName = "PK_playlist_id")}, inverseJoinColumns = {
 			@JoinColumn(name = "track_id", referencedColumnName = "track_id"), @JoinColumn(name = "library_id", referencedColumnName = "library_id")})
 	private Collection <Track> tracks;
@@ -70,10 +74,18 @@ public class Playlist implements Serializable {
 	}
 
 	public void addTrack(Track track) {
-		if(this.tracks == null){
-			this.tracks = new ArrayList<>();
+		if (this.tracks == null) {
+			this.tracks = new ArrayList <>();
 		}
 		this.tracks.add(track);
+	}
+
+	public UserLibrary getUserLibrary() {
+		return userLibrary;
+	}
+
+	public void setUserLibrary(UserLibrary userLibrary) {
+		this.userLibrary = userLibrary;
 	}
 
 	@Override

@@ -32,15 +32,15 @@
 							<th><label><input type="text" name="search_track_no" value="track number serach" class="search_init" /></label></th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr class='clickable-row' data-href='url://'>
-							<td>Pink Floyd</td>
-							<td>68</td>
-						</tr>
-						<tr class='clickable-row' data-href='url://'>
-							<td>Cage the Elephant</td>
-							<td>42</td>
-						</tr>
+					<tbody id="datatable-2-tbody">
+<!-- 						<tr class='clickable-row' data-href='url://'> -->
+<!-- 							<td>Pink Floyd</td> -->
+<!-- 							<td>68</td> -->
+<!-- 						</tr> -->
+<!-- 						<tr class='clickable-row' data-href='url://'> -->
+<!-- 							<td>Cage the Elephant</td> -->
+<!-- 							<td>42</td> -->
+<!-- 						</tr> -->
 					</tbody>
 					<tfoot>
 						<tr>
@@ -60,6 +60,13 @@ function AllTables(){
 	TestTable2();
 	TestTable3();
 	LoadSelect2Script(MakeSelect2);
+	getPlaylists();
+
+    var table = $('#datatable-2').DataTable();
+	$('#datatable-2 tbody').on('click', 'tr', function () {
+        var data = table.row(this).data();
+        console.log(data);
+    });
 }
 function MakeSelect2(){
 	$('select').select2();
@@ -76,7 +83,28 @@ $(document).ready(function() {
 
 jQuery(document).ready(function($) {
     $(".clickable-row").click(function() {
+    	alert("hext")
         window.document.location = $(this).data("href");
     });
 });
+
+
+function getPlaylists() {
+	$('#datatable-2').DataTable().clear().draw();
+	$.ajax({
+		get : 'GET',
+		url : 'rest/userlibrary/playlists',
+		success : populatePlaylistTable,
+		contentType : 'application/json'
+	});
+}
+
+function populatePlaylistTable(data) {
+	var t = $('#datatable-2').DataTable();
+
+	var i;
+	for (i = 0; i < data.length; i++) {
+		t.row.add([ data[i].name, "0" ]).draw();
+	}
+}
 </script>

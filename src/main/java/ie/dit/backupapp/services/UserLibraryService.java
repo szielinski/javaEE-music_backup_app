@@ -1,5 +1,6 @@
 package ie.dit.backupapp.services;
 
+import ie.dit.backupapp.entities.Playlist;
 import ie.dit.backupapp.entities.Track;
 import ie.dit.backupapp.entities.UserLibrary;
 import java.util.Collection;
@@ -13,6 +14,8 @@ public interface UserLibraryService {
 	public void addLibrary(UserLibrary userLibrary);
 
 	public UserLibrary getUserLibrary(String username);
+	
+	public Collection <Playlist> getAllPlaylists(String username);
 	
 	public Collection<String> getAllPlaylistNames(String username);
 

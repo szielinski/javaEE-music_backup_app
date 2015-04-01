@@ -121,6 +121,7 @@ public class XMLReaderServiceEJB implements XMLReaderService {
 			track.setYear(Integer.parseInt(year.getNodeValue()));
 		}
 
+//		track.setUserLibrary(userLibrary);
 		userLibrary.addTrack(track);
 	}
 
@@ -152,6 +153,7 @@ public class XMLReaderServiceEJB implements XMLReaderService {
 				processPlaylistArray(currentNode, userLibrary, playlist);
 			}
 		}
+		playlist.setUserLibrary(userLibrary);
 		userLibrary.addPlaylist(playlist);
 	}
 

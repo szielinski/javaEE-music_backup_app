@@ -48,11 +48,11 @@
 						</tr>
 					</thead>
 					<tbody id="table-body">
-						<tr class='clickable-row' data-href='url://'>
-							<td>The Bravery of Being Out of Range</td>
-							<td>Amused to Death</td>
-							<td>Roger Waters</td>
-						</tr>
+						<!-- 						<tr class='clickable-row' data-href='url://'> -->
+						<!-- 							<td>The Bravery of Being Out of Range</td> -->
+						<!-- 							<td>Amused to Death</td> -->
+						<!-- 							<td>Roger Waters</td> -->
+						<!-- 						</tr> -->
 					</tbody>
 					<tfoot>
 						<tr>
@@ -100,23 +100,15 @@
 									value="genre search" class="search_init" /></label></th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr class='clickable-row' data-href='url://'>
-							<td>The Bravery of Being Out of Range</td>
-							<td>Amused to Death</td>
-							<td>Roger Waters</td>
-							<td>5</td>
-							<td>1992</td>
-							<td>Rock, progressive rock</td>
-						</tr>
-						<tr class='clickable-row' data-href='url://'>
-							<td>Perfect Sense, Part II</td>
-							<td>Amused to Death</td>
-							<td>Roger Waters</td>
-							<td>4</td>
-							<td>1992</td>
-							<td>Rock, progressive rock</td>
-						</tr>
+					<tbody id="table-body2">
+<!-- 						<tr class='clickable-row' data-href='url://'> -->
+<!-- 							<td>The Bravery of Being Out of Range</td> -->
+<!-- 							<td>Amused to Death</td> -->
+<!-- 							<td>Roger Waters</td> -->
+<!-- 							<td>5</td> -->
+<!-- 							<td>1992</td> -->
+<!-- 							<td>Rock, progressive rock</td> -->
+<!-- 						</tr> -->
 					</tbody>
 					<tfoot>
 						<tr>
@@ -140,8 +132,8 @@
 	function AllTables() {
 		TestTable1();
 		TestTable2();
-		TestTable3();
 		LoadSelect2Script(MakeSelect2);
+		getTracks();
 	}
 	function MakeSelect2() {
 		$('select').select2();
@@ -167,7 +159,7 @@
 	function getPlaylists() {
 		$.ajax({
 			get : 'GET',
-			url : 'rest/userlibrary/playlists',
+			url : 'rest/userlibrary/playlists/names',
 			success : populateDropdown,
 			contentType : 'application/json'
 		});
@@ -184,20 +176,50 @@
 			selector.appendChild(element);
 		}
 	}
-	
-	function loadPlaylist(){
-		alert("loading");
 
-		$("#table-body").html("");
-		
+	function loadPlaylist() {
+		$('#datatable-1').DataTable().clear().draw();
+
 		var playlistName = $("#playlists_dropdown").val();
 		
+		if(playlistName == "")
+			return;
+
+		$
+				.ajax({
+					type : 'GET',
+					url : 'rest/userlibrary/playlist/getTracksByPlaylistName?playlistName='
+							+ playlistName,
+					success : populatePlaylistTable,
+					contentType : 'application/json'
+				});
+	}
+
+	function populatePlaylistTable(data) {
+		var t = $('#datatable-1').DataTable();
+
+		var i;
+		for (i = 0; i < data.length; i++) {
+			t.row.add([ data[i].name, data[i].album, data[i].artist ]).draw();
+		}
+	}
+
+	function getTracks() {
 		$.ajax({
-			type : 'GET',
-			url : 'rest/baseData/eventid_causeid?imsi=' + playlistName,
-			success : handleResponseJQuery,
+			get : 'GET',
+			url : 'rest/userlibrary/tracks',
+			success : populateTracksTable,
 			contentType : 'application/json'
 		});
+	}
+
+	function populateTracksTable(data) {
+		var t = $('#datatable-2').DataTable().clear().draw();
+
+		var i;
+		for (i = 0; i < data.length; i++) {
+			t.row.add([ data[i].name, data[i].album, data[i].artist, data[i].trackNumber, data[i].year, data[i].genre ]).draw();
+		}
 	}
 
 	getPlaylists();

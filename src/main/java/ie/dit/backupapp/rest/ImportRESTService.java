@@ -31,7 +31,6 @@ public class ImportRESTService {
 
 			File newFile = new File("tempData");
 			String filepath = newFile.getAbsolutePath();
-			System.out.println(filepath);
 			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(newFile), "UTF-8"));
 			int data;
 			while ((data = byteArrayInputStream.read()) != -1) {

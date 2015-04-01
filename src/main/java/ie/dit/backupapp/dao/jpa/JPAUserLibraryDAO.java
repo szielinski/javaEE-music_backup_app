@@ -1,6 +1,7 @@
 package ie.dit.backupapp.dao.jpa;
 
 import ie.dit.backupapp.dao.UserLibraryDAO;
+import ie.dit.backupapp.entities.Playlist;
 import ie.dit.backupapp.entities.Track;
 import ie.dit.backupapp.entities.UserLibrary;
 import java.util.Collection;
@@ -29,11 +30,18 @@ public class JPAUserLibraryDAO implements UserLibraryDAO {
 
 	@Override
 	public Collection <String> getAllPlaylistNames(String username) {
-		return em.createNamedQuery("getAllPlaylistNames").getResultList();
+		return em.createNamedQuery("getAllPlaylistNames").setParameter("username", username).getResultList();
+	}
+
+	@Override
+	public Collection <Playlist> getAllPlaylists(String username) {
+		UserLibrary ul = (UserLibrary) em.createNamedQuery("getLibraryByUsername").setParameter("username", username).getSingleResult();
+		return ul.getPlaylists();
 	}
 
 	@Override
 	public Collection <Track> getTracksByPlaylistName(String username, String playlistName) {
-		return em.createNamedQuery("getTracksByPlaylistName").setParameter("username", username).setParameter("playlistName", playlistName).getResultList();
+		Playlist p = (Playlist) em.createNamedQuery("getTracksByPlaylistName").setParameter("username", username).setParameter("playlistName", playlistName).getSingleResult();
+		return p.getTracks();
 	}
 }

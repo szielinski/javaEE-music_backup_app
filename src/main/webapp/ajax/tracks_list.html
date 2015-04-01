@@ -1,11 +1,10 @@
 <div class="row">
 	<div id="breadcrumb" class="col-xs-12">
-		<a href="#" class="show-sidebar">
-			<i class="fa fa-bars"></i>
+		<a href="#" class="show-sidebar"> <i class="fa fa-bars"></i>
 		</a>
 		<ol class="breadcrumb pull-left">
 			<li><a href="index.html">Home</a></li>
-			<li><a href="#">Tracks</a></li>
+			<li><a href="#">Playlists</a></li>
 		</ol>
 	</div>
 </div>
@@ -14,45 +13,36 @@
 		<div class="box">
 			<div class="box-header">
 				<div class="box-name">
-					<i class="fa fa-music"></i>
-					<span>Tracks</span>
+					<i class="fa fa-music"></i> <span>Tracks</span>
 				</div>
 				<div class="box-icons">
-					<a class="expand-link">
-						<i class="fa fa-expand"></i>
+					<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+					</a> <a class="expand-link"> <i class="fa fa-expand"></i>
 					</a>
 				</div>
 				<div class="no-move"></div>
 			</div>
-			<div class="box-content no-padding table-responsive">
-				<table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-2">
+			<div class="box-content no-padding">
+				<table
+					class="table table-bordered table-striped table-hover table-heading table-datatable"
+					id="datatable-2">
 					<thead>
 						<tr>
-							<th><label><input type="text" name="search_title" value="title search" class="search_init" /></label></th>
-							<th><label><input type="text" name="search_album" value="album serach" class="search_init" /></label></th>
-							<th><label><input type="text" name="search_artist" value="artist search" class="search_init" /></label></th>
-							<th><label><input type="text" name="search_track_no" value="track number search" class="search_init" /></label></th>
-							<th><label><input type="text" name="search_year" value="year search" class="search_init" /></label></th>
-							<th><label><input type="text" name="search_genre" value="genre search" class="search_init" /></label></th>
+							<th><label><input type="text" name="search_title"
+									value="title search" class="search_init" /></label></th>
+							<th><label><input type="text" name="search_album"
+									value="album serach" class="search_init" /></label></th>
+							<th><label><input type="text" name="search_artist"
+									value="artist search" class="search_init" /></label></th>
+							<th><label><input type="text" name="search_track_no"
+									value="track number search" class="search_init" /></label></th>
+							<th><label><input type="text" name="search_year"
+									value="year search" class="search_init" /></label></th>
+							<th><label><input type="text" name="search_genre"
+									value="genre search" class="search_init" /></label></th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr class='clickable-row' data-href='url://'>
-							<td>The Bravery of Being Out of Range</td>
-							<td>Amused to Death</td>
-							<td>Roger Waters</td>
-							<td>5</td>
-							<td>1992</td>
-							<td>Rock, progressive rock</td>
-						</tr>
-						<tr class='clickable-row' data-href='url://'>
-							<td>Perfect Sense, Part II</td>
-							<td>Amused to Death</td>
-							<td>Roger Waters</td>
-							<td>4</td>
-							<td>1992</td>
-							<td>Rock, progressive rock</td>
-						</tr>
+					<tbody id="table-body">
 					</tbody>
 					<tfoot>
 						<tr>
@@ -69,29 +59,80 @@
 		</div>
 	</div>
 </div>
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+<script src="js/test.js"></script>
 <script type="text/javascript">
-// Run Datables plugin and create 3 variants of settings
-function AllTables(){
-	TestTable1();
-	TestTable2();
-	TestTable3();
-	LoadSelect2Script(MakeSelect2);
-}
-function MakeSelect2(){
-	$('select').select2();
-	$('.dataTables_filter').each(function(){
-		$(this).find('label input[type=text]').attr('placeholder', 'Search');
+	// Run Datables plugin and create 3 variants of settings
+	function AllTables() {
+		TestTable1();
+		TestTable2();
+		LoadSelect2Script(MakeSelect2);
+		loadTracks();
+	}
+	function MakeSelect2() {
+		$('select').select2();
+		$('.dataTables_filter').each(
+				function() {
+					$(this).find('label input[type=text]').attr('placeholder',
+							'Search');
+				});
+	}
+	$(document).ready(function() {
+		// Load Datatables and run plugin on tables 
+		LoadDataTablesScripts(AllTables);
+		// Add Drag-n-Drop feature
+		WinMove();
 	});
-}
-$(document).ready(function() {
-	// Load Datatables and run plugin on tables 
-	LoadDataTablesScripts(AllTables);
-	// Add Drag-n-Drop feature
-	WinMove();
-});
-jQuery(document).ready(function($) {
-    $(".clickable-row").click(function() {
-        window.document.location = $(this).data("href");
-    });
-});
+
+	jQuery(document).ready(function($) {
+		$(".clickable-row").click(function() {
+			window.document.location = $(this).data("href");
+		});
+	});
+
+	function getPlaylists() {
+		$.ajax({
+			get : 'GET',
+			url : 'rest/userlibrary/playlists',
+			success : populateDropdown,
+			contentType : 'application/json'
+		});
+	}
+
+	function populateDropdown(data) {
+		var selector = document.getElementById("playlists_dropdown");
+
+		for (var i = 0; i < data.length; i++) {
+			var playlistName = data[i];
+			var element = document.createElement("option");
+			element.textContent = playlistName;
+			element.value = playlistName;
+			selector.appendChild(element);
+		}
+	}
+
+	function loadTracks() {
+		$('#datatable-2').DataTable().clear().draw();
+
+		$
+				.ajax({
+					type : 'GET',
+					url : 'rest/userlibrary/tracks',
+					success : populateTracksTable,
+					contentType : 'application/json'
+				});
+	}
+
+	function populateTracksTable(data) {
+		var t = $('#datatable-2').DataTable();
+
+		var i;
+		for (i = 0; i < data.length; i++) {
+			t.row.add([ data[i].name, data[i].album, data[i].artist, data[i].trackNumber, data[i].year, data[i].genre ]).draw();
+		}
+	}
+
+// 	window.onload = loadPlaylist;
+// 	loadPlaylist();
+// 	getTracks();
 </script>

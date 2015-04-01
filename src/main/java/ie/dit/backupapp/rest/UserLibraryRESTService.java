@@ -1,5 +1,6 @@
 package ie.dit.backupapp.rest;
 
+import ie.dit.backupapp.entities.Playlist;
 import ie.dit.backupapp.entities.Track;
 import ie.dit.backupapp.entities.UserLibrary;
 import ie.dit.backupapp.services.UserLibraryService;
@@ -25,7 +26,6 @@ public class UserLibraryRESTService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public UserLibrary getUserLibrary(@Context SecurityContext securityContext) {
-		System.out.println("uname: " + securityContext.getUserPrincipal().getName());
 		return userLibraryService.getUserLibrary(securityContext.getUserPrincipal().getName());
 	}
 
@@ -40,14 +40,21 @@ public class UserLibraryRESTService {
 	@GET
 	@Path("/playlist/getTracksByPlaylistName")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection <Track> getTracksByPlaylistName(@Context SecurityContext securityContext, @QueryParam("playlistName") String playlistName) {
+	public Collection <Track> getTracksByPlaylistName(@QueryParam("playlistName") String playlistName, @Context SecurityContext securityContext) {
 		return userLibraryService.getTracksByPlaylistName(securityContext.getUserPrincipal().getName(), playlistName);
 	}
 
 	@GET
 	@Path("/playlists")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection <String> getUserPlaylists(@Context SecurityContext securityContext) {
+	public Collection <Playlist> getUserPlaylists(@Context SecurityContext securityContext) {
+		return userLibraryService.getAllPlaylists(securityContext.getUserPrincipal().getName());
+	}
+
+	@GET
+	@Path("/playlists/names")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection <String> getUserPlaylistNames(@Context SecurityContext securityContext) {
 		return userLibraryService.getAllPlaylistNames(securityContext.getUserPrincipal().getName());
 	}
 

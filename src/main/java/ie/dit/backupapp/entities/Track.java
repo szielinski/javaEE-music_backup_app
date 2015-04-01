@@ -1,11 +1,19 @@
 package ie.dit.backupapp.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @IdClass(IdClasss.class)
@@ -14,7 +22,7 @@ import javax.persistence.Table;
 public class Track implements Serializable {
 
 	private static final long serialVersionUID = -5899790538477195104L;
-	
+
 	@Id
 	@Column(name = "track_id")
 	private int trackId;
@@ -36,11 +44,14 @@ public class Track implements Serializable {
 	private Integer trackNumber;
 	@Column
 	private Integer year;
-	
-//	@ManyToOne(mappedBy="owner")
-//	private Collection<UserLibrary> userLibrary;
-	
-	
+
+//	@ManyToOne(fetch = FetchType.EAGER)
+//	// @Fetch(value = FetchMode.SUBSELECT)
+//	@JoinColumn(name = "USER_LIBRARY")
+//	private UserLibrary userLibrary;
+
+//	@ManyToMany(mappedBy = "tracks")
+//	private Collection <Playlist> playlists;
 
 	public Track() {
 	}
@@ -128,8 +139,24 @@ public class Track implements Serializable {
 	public void setYear(Integer year) {
 		this.year = year;
 	}
-	
-	public String toString(){
-		return ""+getName()+"\n"+getTrackId()+"\n"+getArtist()+"\n"+getComposer()+"\n"+getAlbum()+"\n"+getGenre()+"\n"+getYear();
+
+	public String toString() {
+		return "" + getName() + "\n" + getTrackId() + "\n" + getArtist() + "\n" + getComposer() + "\n" + getAlbum() + "\n" + getGenre() + "\n" + getYear();
 	}
+
+//	public UserLibrary getUserLibrary() {
+//		return userLibrary;
+//	}
+//
+//	public void setUserLibrary(UserLibrary userLibrary) {
+//		this.userLibrary = userLibrary;
+//	}
+//
+//	public Collection <Playlist> getPlaylists() {
+//		return playlists;
+//	}
+//
+//	public void setPlaylists(Collection <Playlist> playlists) {
+//		this.playlists = playlists;
+//	}
 }
