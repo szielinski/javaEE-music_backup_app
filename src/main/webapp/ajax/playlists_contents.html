@@ -134,6 +134,18 @@
 		TestTable2();
 		LoadSelect2Script(MakeSelect2);
 		getTracks();
+
+	    var table1 = $('#datatable-1').DataTable();
+		$('#datatable-1 tbody').on('click', 'tr', function () {
+	        var data = table1.row(this).data();
+	        console.log(data);
+	    });
+
+	    var table2 = $('#datatable-2').DataTable();
+		$('#datatable-2 tbody').on('click', 'tr', function () {
+	        var data = table2.row(this).data();
+	        console.log(data);
+	    });
 	}
 	function MakeSelect2() {
 		$('select').select2();

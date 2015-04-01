@@ -58,13 +58,6 @@ public class UserLibraryRESTService {
 		return userLibraryService.getAllPlaylistNames(securityContext.getUserPrincipal().getName());
 	}
 
-	@GET
-	@Path("/username")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String getUserName(@Context SecurityContext securityContext) {
-		return securityContext.getUserPrincipal().getName();
-	}
-
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

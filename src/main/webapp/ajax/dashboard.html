@@ -1,8 +1,7 @@
 <!--Start Breadcrumb-->
 <div class="row">
 	<div id="breadcrumb" class="col-xs-12">
-		<a href="#" class="show-sidebar">
-			<i class="fa fa-bars"></i>
+		<a href="#" class="show-sidebar"> <i class="fa fa-bars"></i>
 		</a>
 		<ol class="breadcrumb pull-left">
 			<li><a href="index.html">Home</a></li>
@@ -13,7 +12,7 @@
 <!--Start Dashboard 1-->
 <div id="dashboard-header" class="row">
 	<div class="col-xs-12 col-sm-4 col-md-5">
-		<h3>uname's Library</h3>
+		<h3 id="heading">uname's Library</h3>
 	</div>
 </div>
 <!--End Dashboard 1-->
@@ -21,15 +20,36 @@
 <div class="row-fluid">
 	<div id="dashboard_tabs" class="col-xs-12 col-sm-10">
 		<!--Start Dashboard Tab 1-->
-		<div id="dashboard-overview" class="row" style="visibility: visible; position: relative;">
+		<div id="dashboard-overview" class="row"
+			style="visibility: visible; position: relative;">
 			<div id="ow-marketplace" class="col-sm-12 col-md-6">
 				<h4 class="page-header">STATS</h4>
-				<p>Your library persistent id: 542CEAB7C8BAE946</p>
-				<p>Number of tracks in the library: 2</p>
-				<p>Number of playlists in the library: 0</p>
+				<p id="lib_id">Your library persistent id: 542CEAB7C8BAE946</p>
+				<p id="no_tracks">Number of tracks in the library: 2</p>
+				<p id="no_playlists">Number of playlists in the library: 0</p>
 			</div>
 		</div>
 	</div>
 	<div class="clearfix"></div>
 </div>
 <div style="height: 40px;"></div>
+
+<script type="text/javascript">
+	function setDataFields() {
+		$.ajax({
+			get : 'GET',
+			url : 'rest/userlibrary',
+			success : setDataField,
+			contentType : 'application/json',
+		});
+	}
+
+	function setDataField(data) {
+		var heading = document.getElementById("heading");
+		heading.innerHTML = data.username + "'s Library";
+		document.getElementById("lib_id").innerHTML = "Your library persistent id: " + data.libraryPersistentId;
+		document.getElementById("no_tracks").innerHTML = "Number of tracks in the library: " + data.tracks.length;
+		document.getElementById("no_playlists").innerHTML = "Number of playlists in the library: " + data.playlists.length;
+	}
+	setDataFields();
+</script>

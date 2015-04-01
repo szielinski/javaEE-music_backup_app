@@ -68,6 +68,12 @@
 		TestTable2();
 		LoadSelect2Script(MakeSelect2);
 		loadTracks();
+
+	    var table = $('#datatable-2').DataTable();
+		$('#datatable-2 tbody').on('click', 'tr', function () {
+	        var data = table.row(this).data();
+	        console.log(data);
+	    });
 	}
 	function MakeSelect2() {
 		$('select').select2();
