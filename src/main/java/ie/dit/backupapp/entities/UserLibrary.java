@@ -7,8 +7,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
@@ -21,7 +19,9 @@ import org.hibernate.annotations.FetchMode;
 @Entity
 @Table(name = "TB_user_libraries")
 @NamedQueries({
-		@NamedQuery(name = "getAllPlaylistNames", query = "SELECT playlists.name as name FROM UserLibrary userLibraries, Playlist playlists WHERE name MEMBER OF userLibraries.playlists AND userLibraries.username = :username"),
+//		@NamedQuery(name = "getAllPlaylistNames", query = "SELECT playlists.name as name FROM UserLibrary userLibraries, Playlist playlists WHERE name MEMBER OF userLibraries.playlists AND userLibraries.username = :username")
+		@NamedQuery(name = "getAllPlaylistNames", query = "SELECT playlists.name as name FROM Playlist playlists"),
+//		@NamedQuery(name = "getTracksByPlaylistName", query = "SELECT tracks FROM Track tracks, Playlist playlists, UserLibrary userlibraries WHERE playlists.name = :playlistname AND "),
 		@NamedQuery(name = "getLibraryByUsername", query = "SELECT userLibraries FROM UserLibrary userLibraries WHERE userLibraries.username = :username"),})
 public class UserLibrary implements Serializable {
 

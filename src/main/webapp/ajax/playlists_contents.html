@@ -13,10 +13,9 @@
 		<div class="form-group">
 			<label class="col-sm-3 control-label">Playlist to edit</label>
 			<div class="col-sm-5">
-				<select class="populate placeholder" name="country" id="s2_country">
+				<select class="populate placeholder" name="playlists_dropdown"
+					id="playlists_dropdown" onchange="loadPlaylist()">
 					<option value="">-- Select a playlist --</option>
-					<option value="fr">Cage the Elephant</option>
-					<option value="de">Pink Floyd</option>
 				</select>
 			</div>
 			<br>
@@ -28,21 +27,19 @@
 		<div class="box">
 			<div class="box-header">
 				<div class="box-name">
-					<i class="fa fa-music"></i>
-					<span>Playlist</span>
+					<i class="fa fa-music"></i> <span>Playlist</span>
 				</div>
 				<div class="box-icons">
-					<a class="collapse-link">
-						<i class="fa fa-chevron-up"></i>
-					</a>
-					<a class="expand-link">
-						<i class="fa fa-expand"></i>
+					<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+					</a> <a class="expand-link"> <i class="fa fa-expand"></i>
 					</a>
 				</div>
 				<div class="no-move"></div>
 			</div>
 			<div class="box-content no-padding">
-				<table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-1">
+				<table
+					class="table table-bordered table-striped table-hover table-heading table-datatable"
+					id="datatable-1">
 					<thead>
 						<tr>
 							<th>Track Name</th>
@@ -50,7 +47,7 @@
 							<th>Artist</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="table-body">
 						<tr class='clickable-row' data-href='url://'>
 							<td>The Bravery of Being Out of Range</td>
 							<td>Amused to Death</td>
@@ -74,29 +71,33 @@
 		<div class="box">
 			<div class="box-header">
 				<div class="box-name">
-					<i class="fa fa-music"></i>
-					<span>Tracks</span>
+					<i class="fa fa-music"></i> <span>Tracks</span>
 				</div>
 				<div class="box-icons">
-					<a class="collapse-link">
-						<i class="fa fa-chevron-up"></i>
-					</a>
-					<a class="expand-link">
-						<i class="fa fa-expand"></i>
+					<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+					</a> <a class="expand-link"> <i class="fa fa-expand"></i>
 					</a>
 				</div>
 				<div class="no-move"></div>
 			</div>
 			<div class="box-content no-padding table-responsive">
-				<table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-2">
+				<table
+					class="table table-bordered table-striped table-hover table-heading table-datatable"
+					id="datatable-2">
 					<thead>
 						<tr>
-							<th><label><input type="text" name="search_title" value="title search" class="search_init" /></label></th>
-							<th><label><input type="text" name="search_album" value="album serach" class="search_init" /></label></th>
-							<th><label><input type="text" name="search_artist" value="artist search" class="search_init" /></label></th>
-							<th><label><input type="text" name="search_track_no" value="track number search" class="search_init" /></label></th>
-							<th><label><input type="text" name="search_year" value="year search" class="search_init" /></label></th>
-							<th><label><input type="text" name="search_genre" value="genre search" class="search_init" /></label></th>
+							<th><label><input type="text" name="search_title"
+									value="title search" class="search_init" /></label></th>
+							<th><label><input type="text" name="search_album"
+									value="album serach" class="search_init" /></label></th>
+							<th><label><input type="text" name="search_artist"
+									value="artist search" class="search_init" /></label></th>
+							<th><label><input type="text" name="search_track_no"
+									value="track number search" class="search_init" /></label></th>
+							<th><label><input type="text" name="search_year"
+									value="year search" class="search_init" /></label></th>
+							<th><label><input type="text" name="search_genre"
+									value="genre search" class="search_init" /></label></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -132,6 +133,8 @@
 		</div>
 	</div>
 </div>
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+<script src="js/test.js"></script>
 <script type="text/javascript">
 	// Run Datables plugin and create 3 variants of settings
 	function AllTables() {
@@ -160,4 +163,42 @@
 			window.document.location = $(this).data("href");
 		});
 	});
+
+	function getPlaylists() {
+		$.ajax({
+			get : 'GET',
+			url : 'rest/userlibrary/playlists',
+			success : populateDropdown,
+			contentType : 'application/json'
+		});
+	}
+
+	function populateDropdown(data) {
+		var selector = document.getElementById("playlists_dropdown");
+
+		for (var i = 0; i < data.length; i++) {
+			var playlistName = data[i];
+			var element = document.createElement("option");
+			element.textContent = playlistName;
+			element.value = playlistName;
+			selector.appendChild(element);
+		}
+	}
+	
+	function loadPlaylist(){
+		alert("loading");
+
+		$("#table-body").html("");
+		
+		var playlistName = $("#playlists_dropdown").val();
+		
+		$.ajax({
+			type : 'GET',
+			url : 'rest/baseData/eventid_causeid?imsi=' + playlistName,
+			success : handleResponseJQuery,
+			contentType : 'application/json'
+		});
+	}
+
+	getPlaylists();
 </script>
