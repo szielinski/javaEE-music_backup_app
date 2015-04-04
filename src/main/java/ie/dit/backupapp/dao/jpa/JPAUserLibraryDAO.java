@@ -1,10 +1,12 @@
 package ie.dit.backupapp.dao.jpa;
 
 import ie.dit.backupapp.dao.UserLibraryDAO;
+import ie.dit.backupapp.entities.IdClasss;
 import ie.dit.backupapp.entities.Playlist;
 import ie.dit.backupapp.entities.Track;
 import ie.dit.backupapp.entities.UserLibrary;
 import java.util.Collection;
+import java.util.Iterator;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -41,7 +43,107 @@ public class JPAUserLibraryDAO implements UserLibraryDAO {
 
 	@Override
 	public Collection <Track> getTracksByPlaylistName(String username, String playlistName) {
-		Playlist p = (Playlist) em.createNamedQuery("getTracksByPlaylistName").setParameter("username", username).setParameter("playlistName", playlistName).getSingleResult();
+		Playlist p = (Playlist) em.createNamedQuery("getTracksByPlaylistName").setParameter("username", username).setParameter("playlistName", playlistName)
+				.getSingleResult();
 		return p.getTracks();
+	}
+
+	@Override
+	public boolean updateTrack(Track track) {
+		Track old = em.find(Track.class, new IdClasss(track.getTrackId(), track.getLibraryId()));
+		if (old == null)
+			return false;
+		old.setName(track.getName());
+		old.setAlbum(track.getAlbum());
+		old.setArtist(track.getArtist());
+		old.setTrackNumber(track.getTrackNumber());
+		old.setYear(track.getYear());
+		old.setGenre(track.getGenre());
+		em.merge(old);
+		return true;
+	}
+
+	@Override
+	public boolean deleteTrack(String username, int trackId) {
+		UserLibrary present = getUserLibrary(username);
+		Collection <Playlist> playlists = present.getPlaylists();
+		Collection <Track> tracks = present.getTracks();
+
+		for (Playlist p : playlists) {
+			p.removeTrack(trackId);
+		}
+		em.merge(present);
+
+		for (Iterator <Track> iterator = tracks.iterator(); iterator.hasNext();) {
+			Track t = iterator.next();
+			if (t.getTrackId() == trackId) {
+				iterator.remove();
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updatePlaylist(Playlist playlist) {
+		Playlist old = em.find(Playlist.class, playlist.getPlaylistId());
+		if (old == null)
+			return false;
+		old.setName(playlist.getName());
+		em.merge(old);
+		return true;
+	}
+
+	@Override
+	public boolean deletePlaylist(String username, int playlistId) {
+		UserLibrary present = getUserLibrary(username);
+		Collection <Playlist> playlists = present.getPlaylists();
+
+		for (Iterator <Playlist> iterator = playlists.iterator(); iterator.hasNext();) {
+			Playlist p = iterator.next();
+			if (p.getPlaylistId() == playlistId) {
+				iterator.remove();
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean addTrackToPlaylist(String username, String playlistName, String trackName) {
+		UserLibrary present = getUserLibrary(username);
+		Collection <Playlist> playlists = present.getPlaylists();
+		Collection <Track> tracks = present.getTracks();
+
+		for (Track t : tracks) {
+			if (t.getName().equals(trackName)) {
+				for (Playlist p : playlists) {
+					if (p.getName().equals(playlistName)) {
+						p.addTrack(t);
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean removeTrackFromPlaylist(String username, String playlistName, String trackName) {
+		UserLibrary present = getUserLibrary(username);
+		Collection <Playlist> playlists = present.getPlaylists();
+		for (Playlist p : playlists) {
+			if (p.getName().equals(playlistName)) {
+				for (Track t : p.getTracks()) {
+					if (t.getName().equals(trackName)) {
+						p.removeTrack(t.getTrackId());
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 }

@@ -4,7 +4,7 @@
 		</a>
 		<ol class="breadcrumb pull-left">
 			<li><a href="index.html">Home</a></li>
-			<li><a href="#">Playlists</a></li>
+			<li><a href="#">Tracks</a></li>
 		</ol>
 	</div>
 </div>
@@ -60,6 +60,7 @@
 	</div>
 </div>
 <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+<!-- <script src="js/devoops.js"></script> -->
 <script src="js/test.js"></script>
 <script type="text/javascript">
 	// Run Datables plugin and create 3 variants of settings
@@ -72,7 +73,10 @@
 	    var table = $('#datatable-2').DataTable();
 		$('#datatable-2 tbody').on('click', 'tr', function () {
 	        var data = table.row(this).data();
-	        console.log(data);
+	        var packed = escape(data[0]);
+	        window.location.href = "index.html#ajax/edit_track.html?" + packed;
+	        alert("here");
+	    	window.location.reload();
 	    });
 	}
 	function MakeSelect2() {
@@ -137,8 +141,4 @@
 			t.row.add([ data[i].name, data[i].album, data[i].artist, data[i].trackNumber, data[i].year, data[i].genre ]).draw();
 		}
 	}
-
-// 	window.onload = loadPlaylist;
-// 	loadPlaylist();
-// 	getTracks();
 </script>

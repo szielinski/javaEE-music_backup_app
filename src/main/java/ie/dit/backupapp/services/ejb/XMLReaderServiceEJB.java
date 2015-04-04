@@ -121,7 +121,7 @@ public class XMLReaderServiceEJB implements XMLReaderService {
 			track.setYear(Integer.parseInt(year.getNodeValue()));
 		}
 
-//		track.setUserLibrary(userLibrary);
+		track.setUserLibrary(userLibrary);
 		userLibrary.addTrack(track);
 	}
 

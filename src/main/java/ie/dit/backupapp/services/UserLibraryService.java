@@ -20,4 +20,16 @@ public interface UserLibraryService {
 	public Collection<String> getAllPlaylistNames(String username);
 
 	public Collection <Track> getTracksByPlaylistName(String username, String playlistName);
+
+	public boolean updateTrack(Track track);
+
+	public boolean deleteTrack(String username, int trackId);
+
+	public boolean updatePlaylist(Playlist playlist);
+
+	public boolean deletePlaylist(String username, int playlistId);
+
+	public boolean addTrackToPlaylist(String username, String playlistName, String trackName);
+
+	public boolean removeTrackFromPlaylist(String username, String playlistName, String trackName);
 }

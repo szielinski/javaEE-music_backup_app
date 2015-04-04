@@ -40,11 +40,11 @@ public class UserLibrary implements Serializable {
 	@Column(nullable = false)
 	private String role;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "userLibrary", orphanRemoval= true)
 	@Fetch(value = FetchMode.SUBSELECT)
-	@JoinColumn(name = "library_id", referencedColumnName = "PK_library_id")
+//	@JoinColumn(name = "library_id", referencedColumnName = "PK_library_id")
 	private Collection <Track> tracks;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "userLibrary")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "userLibrary", orphanRemoval= true)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private Collection <Playlist> playlists;
 

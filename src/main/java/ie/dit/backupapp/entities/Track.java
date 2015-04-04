@@ -1,19 +1,15 @@
 package ie.dit.backupapp.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 @Entity
 @IdClass(IdClasss.class)
@@ -25,7 +21,7 @@ public class Track implements Serializable {
 
 	@Id
 	@Column(name = "track_id")
-	private int trackId;
+	private Integer trackId;
 	@Id
 	@Column(name = "library_id")
 	private String libraryId;
@@ -44,6 +40,11 @@ public class Track implements Serializable {
 	private Integer trackNumber;
 	@Column
 	private Integer year;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_LIBRARY")
+	@JsonBackReference
+	private UserLibrary userLibrary;
 
 //	@ManyToOne(fetch = FetchType.EAGER)
 //	// @Fetch(value = FetchMode.SUBSELECT)
@@ -68,11 +69,11 @@ public class Track implements Serializable {
 		this.year = year;
 	}
 
-	public int getTrackId() {
+	public Integer getTrackId() {
 		return trackId;
 	}
 
-	public void setTrackId(int trackId) {
+	public void setTrackId(Integer trackId) {
 		this.trackId = trackId;
 	}
 
@@ -142,6 +143,14 @@ public class Track implements Serializable {
 
 	public String toString() {
 		return "" + getName() + "\n" + getTrackId() + "\n" + getArtist() + "\n" + getComposer() + "\n" + getAlbum() + "\n" + getGenre() + "\n" + getYear();
+	}
+
+	public UserLibrary getUserLibrary() {
+		return userLibrary;
+	}
+
+	public void setUserLibrary(UserLibrary userLibrary) {
+		this.userLibrary = userLibrary;
 	}
 
 //	public UserLibrary getUserLibrary() {

@@ -1,7 +1,6 @@
 <div class="row">
 	<div id="breadcrumb" class="col-xs-12">
-		<a href="#" class="show-sidebar">
-			<i class="fa fa-bars"></i>
+		<a href="#" class="show-sidebar"> <i class="fa fa-bars"></i>
 		</a>
 		<ol class="breadcrumb pull-left">
 			<li><a href="index.html">Home</a></li>
@@ -15,12 +14,10 @@
 		<div class="box">
 			<div class="box-header">
 				<div class="box-name">
-					<i class="fa fa-search"></i>
-					<span>Edit playlist form</span>
+					<i class="fa fa-search"></i> <span>Edit playlist form</span>
 				</div>
 				<div class="box-icons">
-					<a class="expand-link">
-						<i class="fa fa-expand"></i>
+					<a class="expand-link"> <i class="fa fa-expand"></i>
 					</a>
 				</div>
 				<div class="no-move"></div>
@@ -31,27 +28,29 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Name</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="Playlist name" data-toggle="tooltip" data-placement="bottom" title="Playlist name">
+							<input type="text" class="form-control" id="name"
+								placeholder="Playlist name" data-toggle="tooltip"
+								data-placement="bottom" title="Playlist name">
 						</div>
+					</div>
+					<div class="form-group">
+						<input type="text" id="playlistId" style="display: none" readonly>
 					</div>
 					<div class="clearfix"></div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-2">
-							<button type="button" class="btn btn-warning btn-label-left">
-							<span><i class="fa fa-times txt-danger"></i></span>
-								Cancel
+							<button type="button" class="btn btn-warning btn-label-left" onclick="gotoPlaylistsList()">
+								<span><i class="fa fa-times txt-danger"></i></span> Back
 							</button>
 						</div>
 						<div class="col-sm-2">
-							<button type="submit" class="btn btn-danger btn-label-left">
-							<span><i class="fa fa-trash-o"></i></span>
-								Delete
+							<button type="submit" class="btn btn-danger btn-label-left" onclick="deletePlaylist()">
+								<span><i class="fa fa-trash-o"></i></span> Delete
 							</button>
 						</div>
 						<div class="col-sm-2">
-							<button type="submit" class="btn btn-primary btn-label-left">
-							<span><i class="fa fa-save"></i></span>
-								Save
+							<button type="submit" class="btn btn-primary btn-label-left" onclick="savePlaylist()">
+								<span><i class="fa fa-save"></i></span> Save
 							</button>
 						</div>
 					</div>
@@ -60,32 +59,117 @@
 		</div>
 	</div>
 </div>
+
 <script type="text/javascript">
-// Run Select2 plugin on elements
-function DemoSelect2(){
-	$('#s2_with_tag').select2({placeholder: "Select OS"});
-	$('#s2_country').select2();
-}
-// Run timepicker
-function DemoTimePicker(){
-	$('#input_time').timepicker({setDate: new Date()});
-}
-$(document).ready(function() {
-	// Create Wysiwig editor for textare
-	TinyMCEStart('#wysiwig_simple', null);
-	TinyMCEStart('#wysiwig_full', 'extreme');
-	// Add slider for change test input length
-	FormLayoutExampleInputLength($( ".slider-style" ));
-	// Initialize datepicker
-	$('#input_date').datepicker({setDate: new Date()});
-	// Load Timepicker plugin
-	LoadTimePickerScript(DemoTimePicker);
-	// Add tooltip to form-controls
-	$('.form-control').tooltip();
-	LoadSelect2Script(DemoSelect2);
-	// Load example of form validation
-	LoadBootstrapValidatorScript(DemoFormValidator);
-	// Add drag-n-drop feature to boxes
-	WinMove();
-});
+	function populateForm() {
+		var elem = document.getElementById("name");
+
+		$.ajax({
+			type : 'GET',
+			url : 'rest/userlibrary/tracks/getPlaylistByName?playlistName='
+					+ elem.value,
+			success : populatePlaylistsForm,
+			contentType : 'application/json'
+		});
+	}
+
+	function populatePlaylistsForm(data) {
+		document.getElementById("playlistId").value = data.playlistId;
+	}
+
+	var query = window.location.toString();
+	var index = query.indexOf("?");
+	query = query.substring(index + 1);
+	var data = query.split(',');
+	for (i = 0; (i < data.length); i++) {
+		data[i] = unescape(data[i]);
+	}
+
+	var elem = document.getElementById("name");
+	elem.value = data[0];
+
+	populateForm();
+</script>
+
+<script type="text/javascript">
+	// Run Select2 plugin on elements
+	function DemoSelect2() {
+		$('#s2_with_tag').select2({
+			placeholder : "Select OS"
+		});
+		$('#s2_country').select2();
+	}
+	// Run timepicker
+	function DemoTimePicker() {
+		$('#input_time').timepicker({
+			setDate : new Date()
+		});
+	}
+	$(document).ready(function() {
+		// Create Wysiwig editor for textare
+		TinyMCEStart('#wysiwig_simple', null);
+		TinyMCEStart('#wysiwig_full', 'extreme');
+		// Add slider for change test input length
+		FormLayoutExampleInputLength($(".slider-style"));
+		// Initialize datepicker
+		$('#input_date').datepicker({
+			setDate : new Date()
+		});
+		// Load Timepicker plugin
+		LoadTimePickerScript(DemoTimePicker);
+		// Add tooltip to form-controls
+		$('.form-control').tooltip();
+		LoadSelect2Script(DemoSelect2);
+		// Load example of form validation
+		LoadBootstrapValidatorScript(DemoFormValidator);
+		// Add drag-n-drop feature to boxes
+		WinMove();
+	});
+
+	function gotoPlaylistsList() {
+		window.location.href = 'index.html#ajax/playlists_list.html';
+		window.location.reload();
+	}
+
+	function deletePlaylist() {
+		var playlistId = $("#playlistId").val();
+		alert(playlistId);
+		$.ajax({
+			type : 'DELETE',
+			url : 'rest/userlibrary/playlists/delete?playlistId=' + playlistId,
+			success : handleDelete,
+			error : handleError,
+			contentType : 'application/json'
+		});
+	}
+
+	function savePlaylist() {
+		var playlist = {
+			playlistId : $("#playlistId").val(),
+			name : $("#name").val(),
+		};
+
+		// 		alert(JSON.stringify(track));
+		$.ajax({
+			type : 'POST',
+			url : 'rest/userlibrary/playlists/edit',
+			data : JSON.stringify(playlist),
+			success : handlePost,
+			error : handleError,
+			contentType : 'application/json'
+		});
+	}
+	
+	function handleDelete() {
+		alert("The playlist has been deleted.");
+		gotoPlaylistsList();
+	}
+
+	function handlePost() {
+		alert("The updated playlist has been saved.");
+	}
+
+	function handleError() {
+		alert("Server error: failed to save the playlist.");
+	}
 </script>

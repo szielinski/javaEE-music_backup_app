@@ -48,11 +48,6 @@
 						</tr>
 					</thead>
 					<tbody id="table-body">
-						<!-- 						<tr class='clickable-row' data-href='url://'> -->
-						<!-- 							<td>The Bravery of Being Out of Range</td> -->
-						<!-- 							<td>Amused to Death</td> -->
-						<!-- 							<td>Roger Waters</td> -->
-						<!-- 						</tr> -->
 					</tbody>
 					<tfoot>
 						<tr>
@@ -71,7 +66,7 @@
 		<div class="box">
 			<div class="box-header">
 				<div class="box-name">
-					<i class="fa fa-music"></i> <span>Tracks</span>
+					<i class="fa fa-list"></i> <span>Tracks</span>
 				</div>
 				<div class="box-icons">
 					<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
@@ -101,14 +96,6 @@
 						</tr>
 					</thead>
 					<tbody id="table-body2">
-<!-- 						<tr class='clickable-row' data-href='url://'> -->
-<!-- 							<td>The Bravery of Being Out of Range</td> -->
-<!-- 							<td>Amused to Death</td> -->
-<!-- 							<td>Roger Waters</td> -->
-<!-- 							<td>5</td> -->
-<!-- 							<td>1992</td> -->
-<!-- 							<td>Rock, progressive rock</td> -->
-<!-- 						</tr> -->
 					</tbody>
 					<tfoot>
 						<tr>
@@ -135,17 +122,27 @@
 		LoadSelect2Script(MakeSelect2);
 		getTracks();
 
-	    var table1 = $('#datatable-1').DataTable();
-		$('#datatable-1 tbody').on('click', 'tr', function () {
-	        var data = table1.row(this).data();
-	        console.log(data);
-	    });
+		var table1 = $('#datatable-1').DataTable();
+		$('#datatable-1 tbody').on('click', 'tr', function() {
+			var data = table1.row(this).data();
+			var playlistName = $("#playlists_dropdown").val();
+			console.log(data);
+			
+	        removeTrackFromPlaylist(data[0], playlistName);
+		});
 
-	    var table2 = $('#datatable-2').DataTable();
-		$('#datatable-2 tbody').on('click', 'tr', function () {
-	        var data = table2.row(this).data();
-	        console.log(data);
-	    });
+		var table2 = $('#datatable-2').DataTable();
+		$('#datatable-2 tbody').on('click', 'tr', function() {
+			var data = table2.row(this).data();
+			var playlistName = $("#playlists_dropdown").val();
+
+			if (playlistName == ""){
+				alert("Select a playlist before adding tracks.");
+				return;
+			}
+			console.log(data);
+	        addTrackToPlaylist(data[0], playlistName);
+		});
 	}
 	function MakeSelect2() {
 		$('select').select2();
@@ -188,13 +185,31 @@
 			selector.appendChild(element);
 		}
 	}
+	
+	function addTrackToPlaylist(trackName, playlistName){
+		$.ajax({
+			type : 'POST',
+			url : 'rest/userlibrary/playlist/addTrack?trackName=' + trackName + "&playlistName=" + playlistName,
+			success : loadPlaylist,
+			contentType : 'application/json'
+		});
+	}
+	
+	function removeTrackFromPlaylist(trackName, playlistName){
+		$.ajax({
+			type : 'DELETE',
+			url : 'rest/userlibrary/playlist/removeTrack?trackName=' + trackName + "&playlistName=" + playlistName,
+			success : loadPlaylist,
+			contentType : 'application/json'
+		});
+	}
 
 	function loadPlaylist() {
 		$('#datatable-1').DataTable().clear().draw();
 
 		var playlistName = $("#playlists_dropdown").val();
-		
-		if(playlistName == "")
+
+		if (playlistName == "")
 			return;
 
 		$
@@ -230,7 +245,10 @@
 
 		var i;
 		for (i = 0; i < data.length; i++) {
-			t.row.add([ data[i].name, data[i].album, data[i].artist, data[i].trackNumber, data[i].year, data[i].genre ]).draw();
+			t.row.add(
+					[ data[i].name, data[i].album, data[i].artist,
+							data[i].trackNumber, data[i].year, data[i].genre ])
+					.draw();
 		}
 	}
 

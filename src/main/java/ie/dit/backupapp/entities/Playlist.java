@@ -3,6 +3,7 @@ package ie.dit.backupapp.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -94,6 +95,16 @@ public class Playlist implements Serializable {
 		int result = 1;
 		result = prime * result + playlistId;
 		return result;
+	}
+	
+	public void removeTrack(int trackId){
+		for(Iterator<Track> iterator = tracks.iterator(); iterator.hasNext();){
+			Track track = iterator.next();
+			if(track.getTrackId() == trackId){
+				iterator.remove();
+				return;
+			}
+		}
 	}
 
 	@Override

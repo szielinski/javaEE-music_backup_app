@@ -46,4 +46,34 @@ public class UserLibraryServiceEJB implements UserLibraryService {
 	public Collection <Playlist> getAllPlaylists(String username) {
 		return userLibraryDAO.getAllPlaylists(username);
 	}
+
+	@Override
+	public boolean updateTrack(Track track) {
+		return userLibraryDAO.updateTrack(track);
+	}
+
+	@Override
+	public boolean deleteTrack(String username, int trackId) {
+		return userLibraryDAO.deleteTrack(username, trackId);
+	}
+
+	@Override
+	public boolean updatePlaylist(Playlist playlist) {
+		return userLibraryDAO.updatePlaylist(playlist);
+	}
+
+	@Override
+	public boolean deletePlaylist(String username, int playlistId) {
+		return userLibraryDAO.deletePlaylist(username, playlistId);
+	}
+
+	@Override
+	public boolean addTrackToPlaylist(String username, String playlistName, String trackName) {
+		return userLibraryDAO.addTrackToPlaylist(username, playlistName, trackName);
+	}
+
+	@Override
+	public boolean removeTrackFromPlaylist(String username, String playlistName, String trackName) {
+		return userLibraryDAO.removeTrackFromPlaylist(username, playlistName, trackName);
+	}
 }

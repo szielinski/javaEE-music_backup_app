@@ -6,8 +6,14 @@ public class IdClasss implements Serializable {
 
 	private static final long serialVersionUID = 1582850329534801192L;
 
-	private int trackId;
+	private Integer trackId;
 	private String libraryId;
+	
+	public IdClasss(){}
+	public IdClasss(Integer trackId, String libraryId){
+		this.trackId = trackId;
+		this.libraryId = libraryId;
+	}
 
 	@Override
 	public int hashCode() {

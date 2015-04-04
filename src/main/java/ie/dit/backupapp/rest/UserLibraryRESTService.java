@@ -7,7 +7,9 @@ import ie.dit.backupapp.services.UserLibraryService;
 import java.util.Collection;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -35,6 +37,86 @@ public class UserLibraryRESTService {
 	public Collection <Track> getUserTracks(@Context SecurityContext securityContext) {
 		UserLibrary library = userLibraryService.getUserLibrary(securityContext.getUserPrincipal().getName());
 		return library.getTracks();
+	}
+
+	@GET
+	@Path("/tracks/getTrackByName")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Track getUserTrackByName(@QueryParam("trackName") String trackName, @Context SecurityContext securityContext) {
+		UserLibrary library = userLibraryService.getUserLibrary(securityContext.getUserPrincipal().getName());
+		Collection<Track> tracks = library.getTracks();
+		for(Track t : tracks){
+			if(t.getName().equals(trackName))
+				return t;
+		}
+		return null;
+	}
+
+	@GET
+	@Path("/tracks/getPlaylistByName")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Playlist getUserPlaylistByName(@QueryParam("playlistName") String playlistName, @Context SecurityContext securityContext) {
+		UserLibrary library = userLibraryService.getUserLibrary(securityContext.getUserPrincipal().getName());
+		Collection<Playlist> playlists = library.getPlaylists();
+		for(Playlist p : playlists){
+			if(p.getName().equals(playlistName))
+				return p;
+		}
+		return null;
+	}
+	
+	@DELETE
+	@Path("/tracks/delete")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteTrack(@QueryParam("trackId") int trackId, @Context SecurityContext securityContext){
+		userLibraryService.deleteTrack(securityContext.getUserPrincipal().getName(), trackId);
+		return Response.ok().status(200).build();
+	}
+	
+	@POST
+	@Path("/tracks/edit")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateTrack(Track track){
+		userLibraryService.updateTrack(track);
+		return Response.ok().status(200).build();
+	}
+	
+	@POST
+	@Path("/playlists/edit")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updatePlaylist(Playlist playlist){
+		userLibraryService.updatePlaylist(playlist);
+		return Response.ok().status(200).build();
+	}
+	
+	@POST
+	@Path("/playlist/addTrack")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response addTrackToPlaylist(@QueryParam("trackName") String trackName, @QueryParam("playlistName") String playlistName, @Context SecurityContext securityContext){
+		userLibraryService.addTrackToPlaylist(securityContext.getUserPrincipal().getName(), playlistName, trackName);
+		return Response.ok().status(200).build();
+	}
+	
+	@DELETE
+	@Path("/playlist/removeTrack")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response removeTrackFromPlaylist(@QueryParam("trackName") String trackName, @QueryParam("playlistName") String playlistName, @Context SecurityContext securityContext){
+		userLibraryService.removeTrackFromPlaylist(securityContext.getUserPrincipal().getName(), playlistName, trackName);
+		return Response.ok().status(200).build();
+	}
+	
+	@DELETE
+	@Path("/playlists/delete")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deletePlaylist(@QueryParam("playlistId") int playlistId, @Context SecurityContext securityContext){
+		userLibraryService.deletePlaylist(securityContext.getUserPrincipal().getName(), playlistId);
+		return Response.ok().status(200).build();
 	}
 
 	@GET
