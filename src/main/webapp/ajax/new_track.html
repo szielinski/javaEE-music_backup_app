@@ -1,0 +1,165 @@
+<div class="row">
+	<div id="breadcrumb" class="col-xs-12">
+		<a href="#" class="show-sidebar"> <i class="fa fa-bars"></i>
+		</a>
+		<ol class="breadcrumb pull-left">
+			<li><a href="index.html">Home</a></li>
+			<li><a href="javascript:void(0);" onclick="gotoTracksList()">Tracks</a></li>
+			<li><a href="#">New</a></li>
+		</ol>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12 col-sm-12">
+		<div class="box">
+			<div class="box-header">
+				<div class="box-name">
+					<i class="fa fa-search"></i> <span>New track form</span>
+				</div>
+				<div class="box-icons">
+					<a class="expand-link"> <i class="fa fa-expand"></i>
+					</a>
+				</div>
+				<div class="no-move"></div>
+			</div>
+			<div class="box-content">
+				<h4 class="page-header">New track form</h4>
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Title</label>
+						<div class="col-sm-4">
+							<input type="text" id="name" class="form-control"
+								placeholder="Track name" data-toggle="tooltip"
+								data-placement="bottom" title="Track name">
+						</div>
+						<label class="col-sm-2 control-label">Album</label>
+						<div class="col-sm-4">
+							<input type="text" id="album" class="form-control"
+								placeholder="Album name" data-toggle="tooltip"
+								data-placement="bottom" title="Album name">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Artist</label>
+						<div class="col-sm-4">
+							<input type="text" id="artist" class="form-control"
+								placeholder="Artist name" data-toggle="tooltip"
+								data-placement="bottom" title="Artist name">
+						</div>
+						<label class="col-sm-2 control-label">Track Number</label>
+						<div class="col-sm-4">
+							<input type="text" id="trackNumber" class="form-control"
+								placeholder="Track number" data-toggle="tooltip"
+								data-placement="bottom" title="Track number">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Year</label>
+						<div class="col-sm-4">
+							<input type="text" id="year" class="form-control"
+								placeholder="Release year" data-toggle="tooltip"
+								data-placement="bottom" title="Release year">
+						</div>
+						<label class="col-sm-2 control-label">Genre</label>
+						<div class="col-sm-4">
+							<input type="text" id="genre" class="form-control"
+								placeholder="Genre" data-toggle="tooltip"
+								data-placement="bottom" title="Genre">
+						</div>
+					</div>
+					<div class="form-group">
+						<input type="text" id="trackId" style="display: none" readonly>
+						<input type="text" id="libraryId" style="display: none" readonly>
+					</div>
+					<div class="clearfix"></div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-2">
+							<button type="button" class="btn btn-warning btn-label-left"
+								onclick="gotoTracksList()">
+								<span><i class="fa fa-times txt-danger"></i></span> Cancel
+							</button>
+						</div>
+						<div class="col-sm-2">
+							<button type="submit" class="btn btn-primary btn-label-left"
+								onclick="saveTrack()">
+								<span><i class="fa fa-save"></i></span> Save
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	// Run Select2 plugin on elements
+	function DemoSelect2() {
+		$('#s2_with_tag').select2({
+			placeholder : "Select OS"
+		});
+		$('#s2_country').select2();
+	}
+	// Run timepicker
+	function DemoTimePicker() {
+		$('#input_time').timepicker({
+			setDate : new Date()
+		});
+	}
+	$(document).ready(function() {
+		// Create Wysiwig editor for textare
+		TinyMCEStart('#wysiwig_simple', null);
+		TinyMCEStart('#wysiwig_full', 'extreme');
+		// Add slider for change test input length
+		FormLayoutExampleInputLength($(".slider-style"));
+		// Initialize datepicker
+		$('#input_date').datepicker({
+			setDate : new Date()
+		});
+		// Load Timepicker plugin
+		LoadTimePickerScript(DemoTimePicker);
+		// Add tooltip to form-controls
+		$('.form-control').tooltip();
+		LoadSelect2Script(DemoSelect2);
+		// Load example of form validation
+		LoadBootstrapValidatorScript(DemoFormValidator);
+		// Add drag-n-drop feature to boxes
+		WinMove();
+	});
+
+	function gotoTracksList() {
+		window.location.href = 'index.html#ajax/tracks_list.html';
+		window.location.reload();
+	}
+
+	function saveTrack() {
+		var track = {
+// 			trackId : $("#trackId").val(),
+// 			libraryId : $("#libraryId").val(),
+			name : $("#name").val(),
+			artist : $("#artist").val(),
+			composer : "",
+			album : $("#album").val(),
+			genre : $("#genre").val(),
+			trackNumber : $("#trackNumber").val(),
+			year : $("#year").val()
+		};
+
+		$.ajax({
+			type : 'POST',
+			url : 'rest/userlibrary/tracks/add',
+			data : JSON.stringify(track),
+			success : handlePost,
+			error : handleError,
+			contentType : 'application/json'
+		});
+	}
+	
+	function handlePost() {
+		alert("The new track has been saved.");
+	}
+
+	function handleError() {
+		alert("Server error: failed to save the new track.");
+	}
+</script>

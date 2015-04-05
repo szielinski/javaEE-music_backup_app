@@ -62,6 +62,13 @@
 
 	<security-constraint>
 		<web-resource-collection>
+			<web-resource-name>my_import</web-resource-name>
+			<url-pattern>/rest/register</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
 			<web-resource-name>page_register</web-resource-name>
 			<url-pattern>/page_register.html</url-pattern>
 		</web-resource-collection>

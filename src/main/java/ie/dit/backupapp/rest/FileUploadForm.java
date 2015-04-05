@@ -4,15 +4,12 @@ import javax.ws.rs.FormParam;
 import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
 public class FileUploadForm {
-
-	public FileUploadForm() {
-	}
-
 	private byte [] fileData;
 	private String fileName;
+	private String username;
+	private String password;
 
-	public String getFileName() {
-		return fileName;
+	public FileUploadForm() {
 	}
 
 	@FormParam("fileName")
@@ -20,8 +17,16 @@ public class FileUploadForm {
 		this.fileName = fileName;
 	}
 
-	public byte [] getFileData() {
-		return fileData;
+	@FormParam("username")
+	@PartType("text/plain")
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	@FormParam("password")
+	@PartType("text/plain")
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@FormParam("selectedFile")
@@ -30,4 +35,19 @@ public class FileUploadForm {
 		this.fileData = fileData;
 	}
 
+	public String getFileName() {
+		return fileName;
+	}
+	
+	public String getUsername(){
+		return username;
+	}
+
+	public String getPassword(){
+		return password;
+	}
+
+	public byte [] getFileData() {
+		return fileData;
+	}
 }

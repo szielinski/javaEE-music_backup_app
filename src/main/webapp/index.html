@@ -92,17 +92,20 @@
 					<li><a href="ajax/dashboard.html" class="ajax-link"> <i
 							class="fa fa-home"></i> <span class="hidden-xs">Home</span>
 					</a></li>
-					<li><a href="ajax/tracks_list.html" class="ajax-link"> <i
-							class="fa fa-music"></i> <span class="hidden-xs">Tracks</span>
-					</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"><i
+							class="fa fa-music"></i> <span class="hidden-xs">Tracks</span> </a>
+						<ul class="dropdown-menu">
+							<li><a class="ajax-link" href="ajax/new_track.html">Add New</a></li>
+							<li><a class="ajax-link" href="ajax/tracks_list.html">List All</a></li>
+						</ul></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle">
 							<i class="fa fa-list"></i> <span class="hidden-xs">Playlists</span>
 					</a>
 						<ul class="dropdown-menu">
-							<li><a class="ajax-link" href="ajax/playlists_list.html">Add/Delete
-									Playlist</a></li>
+							<li><a class="ajax-link" href="ajax/new_playlist.html">Add New</a></li>
+							<li><a class="ajax-link" href="ajax/playlists_list.html">List All</a></li>
 							<li><a class="ajax-link" href="ajax/playlists_contents.html">Edit
-									Playlist Contents</a></li>
+									Contents</a></li>
 						</ul></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle">
 							<i class="fa fa-list"></i> <span class="hidden-xs">Pages</span>
@@ -162,13 +165,13 @@
 				contentType : 'application/json',
 			});
 		}
-		
+
 		function setName(data) {
 			var span = document.getElementById("name_tag");
-			while( span.firstChild ) {
-			    span.removeChild( span.firstChild );
+			while (span.firstChild) {
+				span.removeChild(span.firstChild);
 			}
-			span.appendChild( document.createTextNode(data.username) );
+			span.appendChild(document.createTextNode(data.username));
 		}
 	</script>
 </body>

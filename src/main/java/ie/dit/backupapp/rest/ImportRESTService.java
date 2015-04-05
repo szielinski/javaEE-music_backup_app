@@ -13,16 +13,16 @@ import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
-@Path("/restImportService")
+@Path("/register")
 public class ImportRESTService {
 
 	@EJB
 	private XMLReaderService xmlReader;
 
 	@POST
-	@Path("/import")
 	@Consumes("multipart/form-data")
 	public String importUploadedFile(@MultipartForm FileUploadForm form) {
 		String resultString = "";
@@ -40,7 +40,7 @@ public class ImportRESTService {
 
 			if (xmlReader == null)
 				System.out.println("wtf");
-			xmlReader.createUserLibraryFromXML(filepath, "tests", PasswordGenerator.generate("tests"));
+			xmlReader.createUserLibraryFromXML(filepath, form.getUsername(), PasswordGenerator.generate(form.getPassword()));
 		}
 		catch (IOException e) {
 			resultString = "Import was unsuccessful";

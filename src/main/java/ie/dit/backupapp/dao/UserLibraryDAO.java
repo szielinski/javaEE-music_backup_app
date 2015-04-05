@@ -30,4 +30,8 @@ public interface UserLibraryDAO {
 	public boolean addTrackToPlaylist(String username, String playlistName, String trackName);
 
 	public boolean removeTrackFromPlaylist(String username, String playlistName, String trackName);
+
+	public boolean addTrack(String username, Track track);
+
+	public boolean addPlaylist(String username, Playlist playlist);
 }

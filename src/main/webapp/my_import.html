@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-
-	<form id='importForm' action='rest/restImportService/import'
-		method='post' enctype='multipart/form-data'>
-		<b>Please choose a file to import</b><br> <br> <input
-			id='selectedFile' type='file' name='selectedFile' value='' /><br>
-		<br>
-		<button type='submit' id='testButton' onclick='passFilePath()'>import</button>
+	<form id='registrationForm' action='rest/register' method='post' enctype='multipart/form-data'>
+		<p><b>Please register</b></p>
+		<label for="username">Username:</label> 
+			<input id="username" autofocus="autofocus" placeholder="user name" required="required" type="text" name="username"/><br><br>
+		<label for="password">Password:</label>
+			<input id="password" placeholder="password" required="required" type="password" name="password"/><br><br>
+		<label for="import">Library:</label>
+			<input id='import' type='file' name='selectedFile' value=''/><br><br>
+		<button type="submit">Register and Upload</button>
 	</form>
-	<hr>
 </body>
 </html>

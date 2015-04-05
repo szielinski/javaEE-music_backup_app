@@ -14,7 +14,7 @@
 		<div class="box">
 			<div class="box-header">
 				<div class="box-name">
-					<i class="fa fa-search"></i> <span>Edit playlist form</span>
+					<i class="fa fa-search"></i> <span>New playlist form</span>
 				</div>
 				<div class="box-icons">
 					<a class="expand-link"> <i class="fa fa-expand"></i>
@@ -23,7 +23,7 @@
 				<div class="no-move"></div>
 			</div>
 			<div class="box-content">
-				<h4 class="page-header">Edit playlist form</h4>
+				<h4 class="page-header">New playlist form</h4>
 				<form class="form-horizontal" role="form">
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Name</label>
@@ -40,12 +40,7 @@
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-2">
 							<button type="button" class="btn btn-warning btn-label-left" onclick="gotoPlaylistsList()">
-								<span><i class="fa fa-times txt-danger"></i></span> Back
-							</button>
-						</div>
-						<div class="col-sm-2">
-							<button type="submit" class="btn btn-danger btn-label-left" onclick="deletePlaylist()">
-								<span><i class="fa fa-trash-o"></i></span> Delete
+								<span><i class="fa fa-times txt-danger"></i></span> Cancel
 							</button>
 						</div>
 						<div class="col-sm-2">
@@ -59,37 +54,6 @@
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript">
-	function populateForm() {
-		var elem = document.getElementById("name");
-
-		$.ajax({
-			type : 'GET',
-			url : 'rest/userlibrary/tracks/getPlaylistByName?playlistName='
-					+ elem.value,
-			success : populatePlaylistsForm,
-			contentType : 'application/json'
-		});
-	}
-
-	function populatePlaylistsForm(data) {
-		document.getElementById("playlistId").value = data.playlistId;
-	}
-
-	var query = window.location.toString();
-	var index = query.indexOf("?");
-	query = query.substring(index + 1);
-	var data = query.split(',');
-	for (i = 0; (i < data.length); i++) {
-		data[i] = unescape(data[i]);
-	}
-
-	var elem = document.getElementById("name");
-	elem.value = data[0];
-
-	populateForm();
-</script>
 
 <script type="text/javascript">
 	// Run Select2 plugin on elements
@@ -131,28 +95,14 @@
 		window.location.reload();
 	}
 
-	function deletePlaylist() {
-		var playlistId = $("#playlistId").val();
-		alert(playlistId);
-		$.ajax({
-			type : 'DELETE',
-			url : 'rest/userlibrary/playlists/delete?playlistId=' + playlistId,
-			success : handleDelete,
-			error : handleError,
-			contentType : 'application/json'
-		});
-	}
-
 	function savePlaylist() {
 		var playlist = {
-			playlistId : $("#playlistId").val(),
 			name : $("#name").val(),
 		};
 
-		// 		alert(JSON.stringify(track));
 		$.ajax({
 			type : 'POST',
-			url : 'rest/userlibrary/playlists/edit',
+			url : 'rest/userlibrary/playlists/add',
 			data : JSON.stringify(playlist),
 			success : handlePost,
 			error : handleError,
@@ -160,16 +110,11 @@
 		});
 	}
 	
-	function handleDelete() {
-		alert("The playlist has been deleted.");
-		gotoPlaylistsList();
-	}
-
 	function handlePost() {
-		alert("The updated playlist has been saved.");
+		alert("The new playlist has been saved.");
 	}
 
 	function handleError() {
-		alert("Server error: failed to save the playlist.");
+		alert("Server error: failed to save the new playlist.");
 	}
 </script>

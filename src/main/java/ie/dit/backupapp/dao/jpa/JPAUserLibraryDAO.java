@@ -146,4 +146,26 @@ public class JPAUserLibraryDAO implements UserLibraryDAO {
 
 		return false;
 	}
+
+	@Override
+	public boolean addTrack(String username, Track track) {
+		UserLibrary present = getUserLibrary(username);
+		int currentHighestId = (int) em.createNamedQuery("getHighestTrackId").setParameter("libraryId", present.getLibraryPersistentId()).getSingleResult();
+		track.setTrackId(currentHighestId + 1);
+		track.setUserLibrary(present);
+		track.setLibraryId(present.getLibraryPersistentId());
+		present.addTrack(track);
+		System.out.println("here");
+		em.merge(present);
+		return true;
+	}
+
+	@Override
+	public boolean addPlaylist(String username, Playlist playlist) {
+		UserLibrary present = getUserLibrary(username);
+		playlist.setUserLibrary(present);
+		present.addPlaylist(playlist);
+		em.merge(present);
+		return true;
+	}
 }

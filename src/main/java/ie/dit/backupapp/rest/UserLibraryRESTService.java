@@ -75,6 +75,15 @@ public class UserLibraryRESTService {
 	}
 	
 	@POST
+	@Path("/tracks/add")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response addTrack(Track track, @Context SecurityContext securityContext){
+		userLibraryService.addTrack(securityContext.getUserPrincipal().getName(), track);
+		return Response.ok().status(200).build();
+	}
+	
+	@POST
 	@Path("/tracks/edit")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -131,6 +140,15 @@ public class UserLibraryRESTService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection <Playlist> getUserPlaylists(@Context SecurityContext securityContext) {
 		return userLibraryService.getAllPlaylists(securityContext.getUserPrincipal().getName());
+	}
+	
+	@POST
+	@Path("/playlists/add")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response addPlaylist(Playlist playlist, @Context SecurityContext securityContext){
+		userLibraryService.addPlaylist(securityContext.getUserPrincipal().getName(), playlist);
+		return Response.ok().status(200).build();
 	}
 
 	@GET

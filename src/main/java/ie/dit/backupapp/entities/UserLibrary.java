@@ -21,6 +21,7 @@ import org.hibernate.annotations.FetchMode;
 @NamedQueries({
 		// @NamedQuery(name = "getAllPlaylistNames", query =
 		// "SELECT playlists.name as name FROM UserLibrary userLibraries, Playlist playlists WHERE name MEMBER OF userLibraries.playlists AND userLibraries.username = :username")
+		@NamedQuery(name = "getHighestTrackId", query = "SELECT max(t.trackId) FROM Track t WHERE t.libraryId = :libraryId"),
 		@NamedQuery(name = "getAllPlaylists", query = "SELECT p FROM Playlist p WHERE p.userLibrary.username = :username"),
 		@NamedQuery(name = "getAllPlaylistNames", query = "SELECT p.name as name FROM Playlist p WHERE p.userLibrary.username = :username"),
 		@NamedQuery(name = "getTracksByPlaylistName", query = "SELECT p FROM Playlist p WHERE p.name = :playlistName AND p.userLibrary.username = :username"),
@@ -40,11 +41,11 @@ public class UserLibrary implements Serializable {
 	@Column(nullable = false)
 	private String role;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "userLibrary", orphanRemoval= true)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "userLibrary", orphanRemoval = true)
 	@Fetch(value = FetchMode.SUBSELECT)
-//	@JoinColumn(name = "library_id", referencedColumnName = "PK_library_id")
+	// @JoinColumn(name = "library_id", referencedColumnName = "PK_library_id")
 	private Collection <Track> tracks;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "userLibrary", orphanRemoval= true)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "userLibrary", orphanRemoval = true)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private Collection <Playlist> playlists;
 
