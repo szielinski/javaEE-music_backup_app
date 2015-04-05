@@ -4,7 +4,8 @@
 		</a>
 		<ol class="breadcrumb pull-left">
 			<li><a href="index.html">Home</a></li>
-			<li><a href="#">Playlists</a></li>
+			<li><a href="javascript:void(0);" onclick="gotoPlaylistsList()">Playlists</a></li>
+			<li><a href="#">Edit Contents</a></li>
 		</ol>
 	</div>
 </div>
@@ -220,6 +221,11 @@
 					success : populatePlaylistTable,
 					contentType : 'application/json'
 				});
+	}
+
+	function gotoPlaylistsList() {
+		window.location.href = 'index.html#ajax/playlists_list.html';
+		window.location.reload();
 	}
 
 	function populatePlaylistTable(data) {

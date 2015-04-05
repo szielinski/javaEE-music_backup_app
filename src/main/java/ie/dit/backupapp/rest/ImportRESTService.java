@@ -13,7 +13,6 @@ import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 @Path("/register")
@@ -38,8 +37,6 @@ public class ImportRESTService {
 			}
 			out.close();
 
-			if (xmlReader == null)
-				System.out.println("wtf");
 			xmlReader.createUserLibraryFromXML(filepath, form.getUsername(), PasswordGenerator.generate(form.getPassword()));
 		}
 		catch (IOException e) {

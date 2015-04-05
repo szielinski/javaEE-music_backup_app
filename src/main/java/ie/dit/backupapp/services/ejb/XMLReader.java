@@ -95,11 +95,6 @@ public class XMLReader{
 			track.setAlbum(album.getNodeValue());
 		}
 
-		Node composer = getValueNode(trackContents, "Composer");
-		if (composer != null) {
-			track.setComposer(composer.getNodeValue());
-		}
-
 		Node genre = getValueNode(trackContents, "Genre");
 		if (genre != null) {
 			track.setGenre(genre.getNodeValue());

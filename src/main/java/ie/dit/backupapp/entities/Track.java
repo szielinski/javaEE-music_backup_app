@@ -14,7 +14,6 @@ import org.codehaus.jackson.annotate.JsonBackReference;
 @Entity
 @IdClass(IdClasss.class)
 @Table(name = "TB_tracks")
-// @NamedQueries()
 public class Track implements Serializable {
 
 	private static final long serialVersionUID = -5899790538477195104L;
@@ -31,8 +30,6 @@ public class Track implements Serializable {
 	@Column
 	private String artist;
 	@Column
-	private String composer;
-	@Column
 	private String album;
 	@Column
 	private String genre;
@@ -46,23 +43,14 @@ public class Track implements Serializable {
 	@JsonBackReference
 	private UserLibrary userLibrary;
 
-//	@ManyToOne(fetch = FetchType.EAGER)
-//	// @Fetch(value = FetchMode.SUBSELECT)
-//	@JoinColumn(name = "USER_LIBRARY")
-//	private UserLibrary userLibrary;
-
-//	@ManyToMany(mappedBy = "tracks")
-//	private Collection <Playlist> playlists;
-
 	public Track() {
 	}
 
-	public Track(int trackId, String libraryId, String name, String artist, String composer, String album, String genre, int trackNumber, int year) {
+	public Track(int trackId, String libraryId, String name, String artist, String album, String genre, int trackNumber, int year) {
 		this.trackId = trackId;
 		this.libraryId = libraryId;
 		this.name = name;
 		this.artist = artist;
-		this.composer = composer;
 		this.album = album;
 		this.genre = genre;
 		this.trackNumber = trackNumber;
@@ -101,14 +89,6 @@ public class Track implements Serializable {
 		this.artist = artist;
 	}
 
-	public String getComposer() {
-		return composer;
-	}
-
-	public void setComposer(String composer) {
-		this.composer = composer;
-	}
-
 	public String getAlbum() {
 		return album;
 	}
@@ -142,7 +122,7 @@ public class Track implements Serializable {
 	}
 
 	public String toString() {
-		return "" + getName() + "\n" + getTrackId() + "\n" + getArtist() + "\n" + getComposer() + "\n" + getAlbum() + "\n" + getGenre() + "\n" + getYear();
+		return "" + getName() + "\n" + getTrackId() + "\n" + getArtist() + "\n" + getAlbum() + "\n" + getGenre() + "\n" + getYear();
 	}
 
 	public UserLibrary getUserLibrary() {
@@ -152,20 +132,4 @@ public class Track implements Serializable {
 	public void setUserLibrary(UserLibrary userLibrary) {
 		this.userLibrary = userLibrary;
 	}
-
-//	public UserLibrary getUserLibrary() {
-//		return userLibrary;
-//	}
-//
-//	public void setUserLibrary(UserLibrary userLibrary) {
-//		this.userLibrary = userLibrary;
-//	}
-//
-//	public Collection <Playlist> getPlaylists() {
-//		return playlists;
-//	}
-//
-//	public void setPlaylists(Collection <Playlist> playlists) {
-//		this.playlists = playlists;
-//	}
 }

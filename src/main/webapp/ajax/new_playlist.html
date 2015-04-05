@@ -5,7 +5,7 @@
 		<ol class="breadcrumb pull-left">
 			<li><a href="index.html">Home</a></li>
 			<li><a href="javascript:void(0);" onclick="gotoPlaylistsList()">Playlists</a></li>
-			<li><a href="#">Edit</a></li>
+			<li><a href="#">New</a></li>
 		</ol>
 	</div>
 </div>
@@ -14,7 +14,7 @@
 		<div class="box">
 			<div class="box-header">
 				<div class="box-name">
-					<i class="fa fa-search"></i> <span>New playlist form</span>
+					<i class="fa fa-list"></i> <span>Add new playlist</span>
 				</div>
 				<div class="box-icons">
 					<a class="expand-link"> <i class="fa fa-expand"></i>
@@ -23,7 +23,6 @@
 				<div class="no-move"></div>
 			</div>
 			<div class="box-content">
-				<h4 class="page-header">New playlist form</h4>
 				<form class="form-horizontal" role="form">
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Name</label>
@@ -96,6 +95,9 @@
 	}
 
 	function savePlaylist() {
+		if(!validate())
+			return;
+		
 		var playlist = {
 			name : $("#name").val(),
 		};
@@ -111,10 +113,21 @@
 	}
 	
 	function handlePost() {
-		alert("The new playlist has been saved.");
+		alert("The playlist has been saved.");
+		gotoPlaylistsList();
 	}
 
 	function handleError() {
-		alert("Server error: failed to save the new playlist.");
+		alert("Server error: failed to save the playlist.");
+	}
+	
+	function validate(){
+        var name = document.getElementById("name");
+		if(name.value.length == 0){
+			alert("A playlist must have a name!");
+			name.focus();
+			return false;
+		}
+		return true;
 	}
 </script>

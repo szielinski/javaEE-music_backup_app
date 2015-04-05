@@ -14,7 +14,7 @@
 		<div class="box">
 			<div class="box-header">
 				<div class="box-name">
-					<i class="fa fa-search"></i> <span>New track form</span>
+					<i class="fa fa-music"></i> <span>Add new track</span>
 				</div>
 				<div class="box-icons">
 					<a class="expand-link"> <i class="fa fa-expand"></i>
@@ -23,7 +23,6 @@
 				<div class="no-move"></div>
 			</div>
 			<div class="box-content">
-				<h4 class="page-header">New track form</h4>
 				<form class="form-horizontal" role="form">
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Title</label>
@@ -133,12 +132,12 @@
 	}
 
 	function saveTrack() {
+		if(!validate())
+			return;
+		
 		var track = {
-// 			trackId : $("#trackId").val(),
-// 			libraryId : $("#libraryId").val(),
 			name : $("#name").val(),
 			artist : $("#artist").val(),
-			composer : "",
 			album : $("#album").val(),
 			genre : $("#genre").val(),
 			trackNumber : $("#trackNumber").val(),
@@ -156,10 +155,33 @@
 	}
 	
 	function handlePost() {
-		alert("The new track has been saved.");
+		alert("The track has been saved.");
+		gotoTracksList();
 	}
 
 	function handleError() {
-		alert("Server error: failed to save the new track.");
+		alert("Server error: failed to save the track.");
+	}
+	
+	function validate(){
+        var name = document.getElementById("name");
+		if(name.value.length == 0){
+			alert("A track must have a name!");
+			name.focus();
+			return false;
+		}
+		var trackNumber = document.getElementById("trackNumber");
+		if (trackNumber.value.length != 0 && !trackNumber.value.match(/^[0-9]+$/)) {
+            alert("The 'Track Number' field can only contain a numerical value.");
+            trackNumber.focus();
+            return false;
+        }
+		var year = document.getElementById("year");
+		if (year.value.length != 0 && !year.value.match(/^[0-9]+$/)) {
+            alert("The 'Year' field can only contain a numerical value.");
+            year.focus();
+            return false;
+        }
+		return true;
 	}
 </script>

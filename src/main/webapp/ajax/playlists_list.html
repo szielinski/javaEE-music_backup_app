@@ -67,7 +67,9 @@ function AllTables(){
         var data = table.row(this).data();
         var packed = escape(data[0]);
         window.location.href = "index.html#ajax/edit_playlist.html?" + packed;
-        alert("here");
+		while(window.location.href.contains("edit_playlist.html?") == -1){
+	        window.location.href = "index.html#ajax/edit_playlist.html?" + packed;
+		}
     	window.location.reload();
     });
 }
@@ -86,7 +88,6 @@ $(document).ready(function() {
 
 jQuery(document).ready(function($) {
     $(".clickable-row").click(function() {
-    	alert("hext")
         window.document.location = $(this).data("href");
     });
 });
