@@ -24,7 +24,7 @@ public class ImportRESTService {
 	@POST
 	@Consumes("multipart/form-data")
 	public String importUploadedFile(@MultipartForm FileUploadForm form) {
-		String resultString = "";
+		String resultString = "Import was successfull";
 		try {
 			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(form.getFileData());
 
@@ -43,6 +43,15 @@ public class ImportRESTService {
 			resultString = "Import was unsuccessful";
 			e.printStackTrace();
 		}
+
+//	    java.net.URI location = null;
+//		try {
+//			location = new java.net.URI("../index.html");
+//		}
+//		catch (URISyntaxException e) {
+//			e.printStackTrace();
+//		}
+//	    return Response.temporaryRedirect(location).build();
 		return resultString;
 	}
 }

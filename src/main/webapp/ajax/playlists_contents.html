@@ -127,7 +127,8 @@
 		$('#datatable-1 tbody').on('click', 'tr', function() {
 			var data = table1.row(this).data();
 			var playlistName = $("#playlists_dropdown").val();
-
+			table1.row($(this)).remove().draw(false);
+			
 			removeTrackFromPlaylist(data[0], playlistName);
 		});
 
@@ -140,6 +141,9 @@
 				alert("Select a playlist before adding tracks.");
 				return;
 			}
+			table1.row.add([ data[0], data[1], data[2] ]);
+			table1.draw(false);
+
 			addTrackToPlaylist(data[0], playlistName);
 		});
 	}
@@ -190,7 +194,7 @@
 			type : 'POST',
 			url : 'rest/userlibrary/playlist/addTrack?trackName=' + trackName
 					+ "&playlistName=" + playlistName,
-			success : loadPlaylist,
+			error : loadPlaylist,
 			contentType : 'application/json'
 		});
 	}
@@ -200,18 +204,19 @@
 			type : 'DELETE',
 			url : 'rest/userlibrary/playlist/removeTrack?trackName='
 					+ trackName + "&playlistName=" + playlistName,
-			success : loadPlaylist,
+			error : loadPlaylist,
 			contentType : 'application/json'
 		});
 	}
 
 	function loadPlaylist() {
-		$('#datatable-1').DataTable().clear().draw();
+		$('#datatable-1').DataTable().clear();
 
 		var playlistName = $("#playlists_dropdown").val();
-
-		if (playlistName == "")
+		if (playlistName == ""){
+			$('#datatable-1').DataTable().draw();
 			return;
+		}
 
 		$
 				.ajax({
@@ -248,7 +253,7 @@
 	}
 
 	function populateTracksTable(data) {
-		var t = $('#datatable-2').DataTable().clear().draw();
+		var t = $('#datatable-2').DataTable().clear();
 
 		var i;
 		for (i = 0; i < data.length; i++) {
