@@ -127,9 +127,8 @@
 		$('#datatable-1 tbody').on('click', 'tr', function() {
 			var data = table1.row(this).data();
 			var playlistName = $("#playlists_dropdown").val();
-			console.log(data);
-			
-	        removeTrackFromPlaylist(data[0], playlistName);
+
+			removeTrackFromPlaylist(data[0], playlistName);
 		});
 
 		var table2 = $('#datatable-2').DataTable();
@@ -137,12 +136,11 @@
 			var data = table2.row(this).data();
 			var playlistName = $("#playlists_dropdown").val();
 
-			if (playlistName == ""){
+			if (playlistName == "") {
 				alert("Select a playlist before adding tracks.");
 				return;
 			}
-			console.log(data);
-	        addTrackToPlaylist(data[0], playlistName);
+			addTrackToPlaylist(data[0], playlistName);
 		});
 	}
 	function MakeSelect2() {
@@ -186,20 +184,22 @@
 			selector.appendChild(element);
 		}
 	}
-	
-	function addTrackToPlaylist(trackName, playlistName){
+
+	function addTrackToPlaylist(trackName, playlistName) {
 		$.ajax({
 			type : 'POST',
-			url : 'rest/userlibrary/playlist/addTrack?trackName=' + trackName + "&playlistName=" + playlistName,
+			url : 'rest/userlibrary/playlist/addTrack?trackName=' + trackName
+					+ "&playlistName=" + playlistName,
 			success : loadPlaylist,
 			contentType : 'application/json'
 		});
 	}
-	
-	function removeTrackFromPlaylist(trackName, playlistName){
+
+	function removeTrackFromPlaylist(trackName, playlistName) {
 		$.ajax({
 			type : 'DELETE',
-			url : 'rest/userlibrary/playlist/removeTrack?trackName=' + trackName + "&playlistName=" + playlistName,
+			url : 'rest/userlibrary/playlist/removeTrack?trackName='
+					+ trackName + "&playlistName=" + playlistName,
 			success : loadPlaylist,
 			contentType : 'application/json'
 		});
@@ -233,8 +233,9 @@
 
 		var i;
 		for (i = 0; i < data.length; i++) {
-			t.row.add([ data[i].name, data[i].album, data[i].artist ]).draw();
+			t.row.add([ data[i].name, data[i].album, data[i].artist ]);
 		}
+		t.draw();
 	}
 
 	function getTracks() {
@@ -251,11 +252,10 @@
 
 		var i;
 		for (i = 0; i < data.length; i++) {
-			t.row.add(
-					[ data[i].name, data[i].album, data[i].artist,
-							data[i].trackNumber, data[i].year, data[i].genre ])
-					.draw();
+			t.row.add([ data[i].name, data[i].album, data[i].artist,
+					data[i].trackNumber, data[i].year, data[i].genre ]);
 		}
+		t.draw();
 	}
 
 	getPlaylists();
