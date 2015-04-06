@@ -116,15 +116,16 @@ public class JPAUserLibraryDAO implements UserLibraryDAO {
 
 	@Override
 	public boolean addTrackToPlaylist(String username, String playlistName, String trackName) {
-		UserLibrary present = getUserLibrary(username);
-		Collection <Playlist> playlists = present.getPlaylists();
-		Collection <Track> tracks = present.getTracks();
+		UserLibrary userLibrary = getUserLibrary(username);
+		Collection <Playlist> playlists = userLibrary.getPlaylists();
+		Collection <Track> tracks = userLibrary.getTracks();
 
 		for (Track t : tracks) {
 			if (t.getName().equals(trackName)) {
 				for (Playlist p : playlists) {
 					if (p.getName().equals(playlistName)) {
 						p.addTrack(t);
+						System.out.println("done");
 						return true;
 					}
 				}
@@ -143,6 +144,7 @@ public class JPAUserLibraryDAO implements UserLibraryDAO {
 				for (Track t : p.getTracks()) {
 					if (t.getName().equals(trackName)) {
 						p.removeTrack(t.getTrackId());
+						System.out.println("done");
 						return true;
 					}
 				}
