@@ -21,6 +21,7 @@ import org.hibernate.annotations.FetchMode;
 @NamedQueries({
 		// @NamedQuery(name = "getAllPlaylistNames", query =
 		// "SELECT playlists.name as name FROM UserLibrary userLibraries, Playlist playlists WHERE name MEMBER OF userLibraries.playlists AND userLibraries.username = :username")
+		@NamedQuery(name = "getLibraryByPersistentID", query = "SELECT userLibraries FROM UserLibrary userLibraries WHERE userLibraries.libraryPersistentId = :persistentID"),
 		@NamedQuery(name = "getHighestTrackId", query = "SELECT max(t.trackId) FROM Track t WHERE t.libraryId = :libraryId"),
 		@NamedQuery(name = "getAllPlaylists", query = "SELECT p FROM Playlist p WHERE p.userLibrary.username = :username"),
 		@NamedQuery(name = "getAllPlaylistNames", query = "SELECT p.name as name FROM Playlist p WHERE p.userLibrary.username = :username"),

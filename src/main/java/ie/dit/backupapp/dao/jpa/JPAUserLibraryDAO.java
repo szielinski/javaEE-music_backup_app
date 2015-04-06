@@ -8,6 +8,7 @@ import ie.dit.backupapp.entities.UserLibrary;
 import java.util.Collection;
 import java.util.Iterator;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 public class JPAUserLibraryDAO implements UserLibraryDAO {
@@ -17,7 +18,11 @@ public class JPAUserLibraryDAO implements UserLibraryDAO {
 
 	@Override
 	public UserLibrary getUserLibrary(String username) {
-		return (UserLibrary) em.createNamedQuery("getLibraryByUsername").setParameter("username", username).getSingleResult();
+		UserLibrary userLibrary = null;
+		try{
+			userLibrary = (UserLibrary) em.createNamedQuery("getLibraryByUsername").setParameter("username", username).getSingleResult();
+		} catch (NoResultException e){}
+		return userLibrary;
 	}
 
 	@Override
@@ -167,5 +172,14 @@ public class JPAUserLibraryDAO implements UserLibraryDAO {
 		present.addPlaylist(playlist);
 		em.merge(present);
 		return true;
+	}
+
+	@Override
+	public UserLibrary getUserLibraryByPersistentID(String persistentID) {
+		UserLibrary userLibrary = null;
+		try{
+			userLibrary = (UserLibrary) em.createNamedQuery("getLibraryByPersistentID").setParameter("persistentID", persistentID).getSingleResult();
+		} catch (NoResultException e){}
+		return userLibrary;
 	}
 }

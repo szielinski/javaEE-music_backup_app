@@ -24,7 +24,7 @@ public class ImportRESTService {
 	@POST
 	@Consumes("multipart/form-data")
 	public String importUploadedFile(@MultipartForm FileUploadForm form) {
-		String resultString = "Import was successfull";
+		String resultString = "Import was successful";
 		try {
 			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(form.getFileData());
 
@@ -37,21 +37,14 @@ public class ImportRESTService {
 			}
 			out.close();
 
-			xmlReader.createUserLibraryFromXML(filepath, form.getUsername(), PasswordGenerator.generate(form.getPassword()));
+			resultString = xmlReader.createUserLibraryFromXML(filepath, form.getUsername(), PasswordGenerator.generate(form.getPassword()));
 		}
 		catch (IOException e) {
 			resultString = "Import was unsuccessful";
 			e.printStackTrace();
 		}
 
-//	    java.net.URI location = null;
-//		try {
-//			location = new java.net.URI("../index.html");
-//		}
-//		catch (URISyntaxException e) {
-//			e.printStackTrace();
-//		}
-//	    return Response.temporaryRedirect(location).build();
-		return resultString;
+		resultString += "<br><br><a href=\"../page_register.html\">Go back to the registration page</a>";
+		return resultString + "<br><br><a href=\"../index.html\">Login page</a>";
 	}
 }

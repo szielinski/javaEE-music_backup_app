@@ -24,7 +24,10 @@ public class XMLReaderServiceEJB implements XMLReaderService {
 	private UserLibraryDAO userLibraryDAO;
 
 	@Override
-	public void createUserLibraryFromXML(String location, String username, String password) {
+	public String createUserLibraryFromXML(String location, String username, String password) {
+		if(userLibraryDAO.getUserLibrary(username) != null){
+			return "The username is already taken. Import failed.";
+		}
 		UserLibrary newUserLibrary = new UserLibrary();
 		newUserLibrary.setUsername(username);
 		newUserLibrary.setPassword(password);
@@ -37,15 +40,20 @@ public class XMLReaderServiceEJB implements XMLReaderService {
 
 			parsedXML.getDocumentElement().normalize();
 
-			insertDataIntoLibrary(parsedXML, newUserLibrary);
+			return insertDataIntoLibrary(parsedXML, newUserLibrary);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+		return "A new user account has been created";
 	}
 
-	private void insertDataIntoLibrary(Document parsedXML, UserLibrary newUserLibrary) {
+	private String insertDataIntoLibrary(Document parsedXML, UserLibrary newUserLibrary) {
 		Node libraryPersistentIdNode = getValueNode(parsedXML.getDocumentElement().getChildNodes(), "Library Persistent ID");
+
+		if(userLibraryDAO.getUserLibraryByPersistentID(libraryPersistentIdNode.getNodeValue()) != null){
+			return "The Library Persistent ID is used by an existing library. Import failed.";
+		}
 		newUserLibrary.setLibraryPersistentId(libraryPersistentIdNode.getNodeValue());
 
 		Node tracksNode = getNode(parsedXML.getDocumentElement().getChildNodes(), "Tracks");
@@ -62,6 +70,7 @@ public class XMLReaderServiceEJB implements XMLReaderService {
 			processPlaylists(playlistsArray, newUserLibrary);
 		}
 		userLibraryDAO.addUserLibrary(newUserLibrary);
+		return "A new user account has been created";
 	}
 
 	private void processTracks(Node tracksDict, UserLibrary userLibrary) {

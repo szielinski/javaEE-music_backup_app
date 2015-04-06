@@ -9,6 +9,8 @@ public interface UserLibraryDAO {
 
 	public UserLibrary getUserLibrary(String username);
 
+	public UserLibrary getUserLibraryByPersistentID(String persistentID);
+
 	public void addUserLibrary(UserLibrary userLibrary);
 	
 	public void updateUserLibrary(UserLibrary userLibrary);
