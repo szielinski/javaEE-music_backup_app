@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,7 +36,7 @@ public class Playlist implements Serializable {
 	@JsonBackReference
 	private UserLibrary userLibrary;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //	@Fetch(value = FetchMode.SUBSELECT)
 	@JoinTable(name = "TB_playlists_tracks", joinColumns = {@JoinColumn(name = "playlist_id", referencedColumnName = "PK_playlist_id")}, inverseJoinColumns = {
 			@JoinColumn(name = "track_id", referencedColumnName = "track_id"), @JoinColumn(name = "library_id", referencedColumnName = "library_id")})

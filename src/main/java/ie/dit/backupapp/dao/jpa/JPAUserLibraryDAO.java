@@ -83,6 +83,7 @@ public class JPAUserLibraryDAO implements UserLibraryDAO {
 			Track t = iterator.next();
 			if (t.getTrackId() == trackId) {
 				iterator.remove();
+				em.merge(present);
 				return true;
 			}
 		}
