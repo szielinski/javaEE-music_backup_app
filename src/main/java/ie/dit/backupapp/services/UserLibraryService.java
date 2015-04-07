@@ -29,9 +29,9 @@ public interface UserLibraryService {
 
 	public boolean deletePlaylist(String username, int playlistId);
 
-	public boolean addTrackToPlaylist(String username, String playlistName, String trackName);
+	public boolean addTrackToPlaylist(String username, String playlistName, int trackId);
 
-	public boolean removeTrackFromPlaylist(String username, String playlistName, String trackName);
+	public boolean removeTrackFromPlaylist(String username, String playlistName, int trackId);
 
 	public boolean addTrack(String username, Track track);
 

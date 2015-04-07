@@ -62,8 +62,9 @@ function AllTables(){
         var packed = escape(data[0]);
         window.location.href = "index.html#ajax/edit_playlist.html?" + packed;
 		while(window.location.href.contains("edit_playlist.html?") == -1){
-	        window.location.href = "index.html#ajax/edit_playlist.html?" + packed;
+	        window.location = "index.html#ajax/edit_playlist.html?" + packed;
 		}
+		alert("Opening the playlist "+ data[1] +" for editing");
     	window.location.reload();
     });
 }

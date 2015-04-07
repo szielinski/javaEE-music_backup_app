@@ -116,13 +116,13 @@ public class JPAUserLibraryDAO implements UserLibraryDAO {
 	}
 
 	@Override
-	public boolean addTrackToPlaylist(String username, String playlistName, String trackName) {
+	public boolean addTrackToPlaylist(String username, String playlistName, int trackId) {
 		UserLibrary userLibrary = getUserLibrary(username);
 		Collection <Playlist> playlists = userLibrary.getPlaylists();
 		Collection <Track> tracks = userLibrary.getTracks();
 
 		for (Track t : tracks) {
-			if (t.getName().equals(trackName)) {
+			if (t.getTrackId().equals(trackId)) {
 				for (Playlist p : playlists) {
 					if (p.getName().equals(playlistName)) {
 						p.addTrack(t);
@@ -137,14 +137,14 @@ public class JPAUserLibraryDAO implements UserLibraryDAO {
 	}
 
 	@Override
-	public boolean removeTrackFromPlaylist(String username, String playlistName, String trackName) {
+	public boolean removeTrackFromPlaylist(String username, String playlistName, int trackId) {
 		UserLibrary present = getUserLibrary(username);
 		Collection <Playlist> playlists = present.getPlaylists();
 		for (Playlist p : playlists) {
 			if (p.getName().equals(playlistName)) {
 				for (Track t : p.getTracks()) {
-					if (t.getName().equals(trackName)) {
-						p.removeTrack(t.getTrackId());
+					if (t.getTrackId().equals(trackId)) {
+						p.removeTrack(trackId);
 						System.out.println("done");
 						return true;
 					}
@@ -163,7 +163,6 @@ public class JPAUserLibraryDAO implements UserLibraryDAO {
 		track.setUserLibrary(present);
 		track.setLibraryId(present.getLibraryPersistentId());
 		present.addTrack(track);
-		System.out.println("here");
 		em.merge(present);
 		return true;
 	}
@@ -171,6 +170,12 @@ public class JPAUserLibraryDAO implements UserLibraryDAO {
 	@Override
 	public boolean addPlaylist(String username, Playlist playlist) {
 		UserLibrary present = getUserLibrary(username);
+		Collection <Playlist> playlists = present.getPlaylists();
+		for (Playlist p : playlists) {
+			if (p.getName().equals(playlist.getName())) {
+				return false;
+			}
+		}
 		playlist.setUserLibrary(present);
 		present.addPlaylist(playlist);
 		em.merge(present);

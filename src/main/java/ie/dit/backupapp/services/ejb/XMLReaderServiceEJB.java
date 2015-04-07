@@ -7,6 +7,7 @@ import ie.dit.backupapp.entities.UserLibrary;
 import ie.dit.backupapp.services.XMLReaderService;
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -24,6 +25,7 @@ public class XMLReaderServiceEJB implements XMLReaderService {
 	private UserLibraryDAO userLibraryDAO;
 	
 	private HashMap<Integer, Track> trackHashMap = new HashMap<>();
+	private HashSet<String> playlistNames = new HashSet<>();
 
 	@Override
 	public String createUserLibraryFromXML(String location, String username, String password) {
@@ -153,6 +155,11 @@ public class XMLReaderServiceEJB implements XMLReaderService {
 		if (name != null) {
 			playlist.setName(name.getNodeValue());
 		}
+		
+		if(playlistNames.contains(name.getNodeValue())){
+			return;
+		}
+		playlistNames.add(name.getNodeValue());
 
 		for (int i = 0; i < playlistContents.getLength(); i++) {
 			Node currentNode = playlistContents.item(i);

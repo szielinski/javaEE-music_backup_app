@@ -68,13 +68,13 @@ public class UserLibraryServiceEJB implements UserLibraryService {
 	}
 
 	@Override
-	public boolean addTrackToPlaylist(String username, String playlistName, String trackName) {
-		return userLibraryDAO.addTrackToPlaylist(username, playlistName, trackName);
+	public boolean addTrackToPlaylist(String username, String playlistName, int trackId) {
+		return userLibraryDAO.addTrackToPlaylist(username, playlistName, trackId);
 	}
 
 	@Override
-	public boolean removeTrackFromPlaylist(String username, String playlistName, String trackName) {
-		return userLibraryDAO.removeTrackFromPlaylist(username, playlistName, trackName);
+	public boolean removeTrackFromPlaylist(String username, String playlistName, int trackId) {
+		return userLibraryDAO.removeTrackFromPlaylist(username, playlistName, trackId);
 	}
 
 	@Override

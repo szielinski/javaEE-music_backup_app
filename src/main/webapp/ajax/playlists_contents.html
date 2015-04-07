@@ -194,21 +194,21 @@
 		}
 	}
 
-	function addTrackToPlaylist(trackName, playlistName) {
+	function addTrackToPlaylist(trackId, playlistName) {
 		$.ajax({
 			type : 'POST',
-			url : 'rest/userlibrary/playlist/addTrack?trackName=' + trackName
+			url : 'rest/userlibrary/playlist/addTrack?trackId=' + trackId
 					+ "&playlistName=" + playlistName,
 			error : loadPlaylist,
 			contentType : 'application/json'
 		});
 	}
 
-	function removeTrackFromPlaylist(trackName, playlistName) {
+	function removeTrackFromPlaylist(trackId, playlistName) {
 		$.ajax({
 			type : 'DELETE',
-			url : 'rest/userlibrary/playlist/removeTrack?trackName='
-					+ trackName + "&playlistName=" + playlistName,
+			url : 'rest/userlibrary/playlist/removeTrack?trackId='
+					+ trackId + "&playlistName=" + playlistName,
 			error : loadPlaylist,
 			contentType : 'application/json'
 		});

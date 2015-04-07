@@ -17,6 +17,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
 @Path("/userlibrary")
@@ -131,8 +132,8 @@ public class UserLibraryRESTService {
 	@Path("/playlist/addTrack")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addTrackToPlaylist(@QueryParam("trackName") String trackName, @QueryParam("playlistName") String playlistName, @Context SecurityContext securityContext){
-		userLibraryService.addTrackToPlaylist(securityContext.getUserPrincipal().getName(), playlistName, trackName);
+	public Response addTrackToPlaylist(@QueryParam("trackId") int trackId, @QueryParam("playlistName") String playlistName, @Context SecurityContext securityContext){
+		userLibraryService.addTrackToPlaylist(securityContext.getUserPrincipal().getName(), playlistName, trackId);
 		return Response.ok().status(200).build();
 	}
 	
@@ -140,8 +141,8 @@ public class UserLibraryRESTService {
 	@Path("/playlist/removeTrack")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response removeTrackFromPlaylist(@QueryParam("trackName") String trackName, @QueryParam("playlistName") String playlistName, @Context SecurityContext securityContext){
-		userLibraryService.removeTrackFromPlaylist(securityContext.getUserPrincipal().getName(), playlistName, trackName);
+	public Response removeTrackFromPlaylist(@QueryParam("trackId") int trackId, @QueryParam("playlistName") String playlistName, @Context SecurityContext securityContext){
+		userLibraryService.removeTrackFromPlaylist(securityContext.getUserPrincipal().getName(), playlistName, trackId);
 		return Response.ok().status(200).build();
 	}
 	
@@ -173,8 +174,10 @@ public class UserLibraryRESTService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addPlaylist(Playlist playlist, @Context SecurityContext securityContext){
-		userLibraryService.addPlaylist(securityContext.getUserPrincipal().getName(), playlist);
-		return Response.ok().status(200).build();
+		if(userLibraryService.addPlaylist(securityContext.getUserPrincipal().getName(), playlist)){
+			return Response.ok().status(200).build();
+		}
+		return Response.status(Status.CONFLICT).build();
 	}
 
 	@GET
@@ -191,9 +194,4 @@ public class UserLibraryRESTService {
 		userLibraryService.updateLibrary(userLibrary);
 		return Response.ok().status(200).build();
 	}
-
-	/*
-	 * public Response deleteTrack(@QueryParam("trackId") int trackId, @QueryParam("libraryId") int libraryId){ userLibraryService.deleteTrack(); return
-	 * Response.ok().status(200).build(); }
-	 */
 }

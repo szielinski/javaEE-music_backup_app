@@ -78,9 +78,9 @@
 			var packed = escape(data[0]);
 			window.location.href = "index.html#ajax/edit_track.html?" + packed;
 			while(window.location.href.contains("edit_track.html?") == -1){
-				window.location.href = "index.html#ajax/edit_track.html?" + packed;
+				window.location = "index.html#ajax/edit_track.html?" + packed;
 			}
-			alert("here");
+			alert("Opening the track "+ data[1] +" for editing");
 			window.location.reload();
 		});
 	}
