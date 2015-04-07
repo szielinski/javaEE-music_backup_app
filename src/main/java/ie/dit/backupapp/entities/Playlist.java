@@ -37,7 +37,6 @@ public class Playlist implements Serializable {
 	private UserLibrary userLibrary;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//	@Fetch(value = FetchMode.SUBSELECT)
 	@JoinTable(name = "TB_playlists_tracks", joinColumns = {@JoinColumn(name = "playlist_id", referencedColumnName = "PK_playlist_id")}, inverseJoinColumns = {
 			@JoinColumn(name = "track_id", referencedColumnName = "track_id"), @JoinColumn(name = "library_id", referencedColumnName = "library_id")})
 	private Collection <Track> tracks;
@@ -103,7 +102,6 @@ public class Playlist implements Serializable {
 			Track track = iterator.next();
 			if(track.getTrackId() == trackId){
 				iterator.remove();
-				return;
 			}
 		}
 	}
