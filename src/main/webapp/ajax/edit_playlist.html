@@ -61,11 +61,11 @@
 
 <script type="text/javascript">
 	function populateForm() {
-		var elem = document.getElementById("name");
+		var elem = document.getElementById("playlistId");
 
 		$.ajax({
 			type : 'GET',
-			url : 'rest/userlibrary/tracks/getPlaylistByName?playlistName='
+			url : 'rest/userlibrary/playlists/getPlaylistById?playlistId='
 					+ elem.value,
 			success : populatePlaylistsForm,
 			contentType : 'application/json'
@@ -73,7 +73,7 @@
 	}
 
 	function populatePlaylistsForm(data) {
-		document.getElementById("playlistId").value = data.playlistId;
+		document.getElementById("name").value = data.name;
 	}
 
 	var query = window.location.toString();
@@ -84,7 +84,7 @@
 		data[i] = unescape(data[i]);
 	}
 
-	var elem = document.getElementById("name");
+	var elem = document.getElementById("playlistId");
 	elem.value = data[0];
 
 	populateForm();

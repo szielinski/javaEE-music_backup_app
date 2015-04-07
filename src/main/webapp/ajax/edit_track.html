@@ -98,11 +98,11 @@
 
 <script type="text/javascript">
 	function populateForm() {
-		var elem = document.getElementById("name");
+		var elem = document.getElementById("trackId");
 
 		$.ajax({
 			type : 'GET',
-			url : 'rest/userlibrary/tracks/getTrackByName?trackName='
+			url : 'rest/userlibrary/tracks/getTrackById?trackId='
 					+ elem.value,
 			success : populateTracksForm,
 			contentType : 'application/json'
@@ -110,6 +110,7 @@
 	}
 
 	function populateTracksForm(data) {
+		document.getElementById("name").value = data.name;
 		document.getElementById("album").value = data.album;
 		document.getElementById("artist").value = data.artist;
 		document.getElementById("trackNumber").value = data.trackNumber;
@@ -127,7 +128,7 @@
 		data[i] = unescape(data[i]);
 	}
 
-	var elem = document.getElementById("name");
+	var elem = document.getElementById("trackId");
 	elem.value = data[0];
 
 	populateForm();

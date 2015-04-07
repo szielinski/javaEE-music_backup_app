@@ -53,13 +53,39 @@ public class UserLibraryRESTService {
 	}
 
 	@GET
-	@Path("/tracks/getPlaylistByName")
+	@Path("/tracks/getTrackById")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Track getUserTrackById(@QueryParam("trackId") int trackId, @Context SecurityContext securityContext) {
+		UserLibrary library = userLibraryService.getUserLibrary(securityContext.getUserPrincipal().getName());
+		Collection<Track> tracks = library.getTracks();
+		for(Track t : tracks){
+			if(t.getTrackId() == trackId)
+				return t;
+		}
+		return null;
+	}
+
+	@GET
+	@Path("/playlists/getPlaylistByName")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Playlist getUserPlaylistByName(@QueryParam("playlistName") String playlistName, @Context SecurityContext securityContext) {
 		UserLibrary library = userLibraryService.getUserLibrary(securityContext.getUserPrincipal().getName());
 		Collection<Playlist> playlists = library.getPlaylists();
 		for(Playlist p : playlists){
 			if(p.getName().equals(playlistName))
+				return p;
+		}
+		return null;
+	}
+
+	@GET
+	@Path("/playlists/getPlaylistById")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Playlist getUserPlaylistById(@QueryParam("playlistId") int playlistId, @Context SecurityContext securityContext) {
+		UserLibrary library = userLibraryService.getUserLibrary(securityContext.getUserPrincipal().getName());
+		Collection<Playlist> playlists = library.getPlaylists();
+		for(Playlist p : playlists){
+			if(p.getPlaylistId() == playlistId)
 				return p;
 		}
 		return null;

@@ -28,6 +28,7 @@
 				<table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-2">
 					<thead>
 						<tr>
+							<th><label><input type="text" name="serach_id" value="playlist id search" class="search_init" /></label></th>
 							<th><label><input type="text" name="serach_name" value="name search" class="search_init" /></label></th>
 							<th><label><input type="text" name="search_track_no" value="track number serach" class="search_init" /></label></th>
 						</tr>
@@ -36,6 +37,7 @@
 					</tbody>
 					<tfoot>
 						<tr>
+							<th>#</th>
 							<th>Name</th>
 							<th>Number of tracks</th>
 						</tr>
@@ -100,7 +102,7 @@ function populatePlaylistTable(data) {
 
 	var i;
 	for (i = 0; i < data.length; i++) {
-		t.row.add([ data[i].name, data[i].tracks.length ]);
+		t.row.add([ data[i].playlistId, data[i].name, data[i].tracks.length ]);
 	}
 	t.draw();
 }
